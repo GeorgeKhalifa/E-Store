@@ -2,20 +2,110 @@
 
 {% block head_block %}
 <title> Registration </title>
+
 {% endblock %}
 
 {% block body_block %}
 <div class = "jumbotron">
-  <h1> Fill in your Information </h1>
+  <h2> Sign-up Form </h2>
+  {% if Tryagain %}
+  <h5><i class="fas fa-bell"></i> Registration Failed, Please try again </h5>
+  {% endif %}
   <form method = "POST">
     {% csrf_token %}
-    {{user_form.as_p}}
-    {{userinfo_form.as_p}}
-    {% if Tryagain %}
-    <h3> Registration Failed, Please try again </h3>
-    {% endif %}
+    {{ user_form.non_field_errors }}
+    <!--<div class="fieldWrapper">
+        {{ user_form.first_name.errors }}
+        <label for="{{ form.first_name.id_for_label }}">First Name </label>
+        {{ user_form.first_name }}
+    </div>
+    <div class="fieldWrapper">
+        {{ user_form.last_name.errors }}
+        <label for="{{ form.last_name.id_for_label }}">Last Name </label>
+        {{ user_form.last_name }}
+    </div>
+    <div class="fieldWrapper">
+        {{ user_form.email.errors }}
+        <label for="{{ form.email.id_for_label }}">Email Address </label>
+        {{ user_form.email }}
+    </div>
+    <div class="fieldWrapper">
+        {{ user_form.username.errors }}
+        <label for="{{ form.username.id_for_label }}">User Name </label>
+        {{ user_form.username }}
+    </div>
+    <div class="fieldWrapper">
+        {{ user_form.password.errors }}
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        {{ user_form.password }}
+    </div>
+    <div class ="fieldWrapper">
+        <label for="{{ form.confirm_password.id_for_label }}">Confirm Password</label>
+        {{user_form.confirm_password}}
+    </div>
+    <div class="fieldWrapper">
+        {{ userinfo_form.BuyerOrSeller.errors }}
+        <label for="{{ form.BuyerOrSeller.id_for_label }}">Select the type of account:</label>
+        {{ userinfo_form.BuyerOrSeller }}
+    </div>
 
-    <input type = "submit" value = "Register">
+    <input type = "submit" value = "Register">-->
+    <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="register-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                      {{ user_form.first_name.errors }}
+                                      <i class="fas fa-user"></i>
+                                      <label for="{{ form.first_name.id_for_label }}">First Name </label>
+                                      {{ user_form.first_name }}
+                                    </div>
+                                    <div class="col-md-6">
+                                      {{ user_form.last_name.errors }}
+                                      <i class="fas fa-user"></i>
+                                      <label for="{{ form.last_name.id_for_label }}">Last Name </label>
+                                      {{ user_form.last_name }}
+                                    </div>
+                                    <div class="col-md-6">
+                                      {{ user_form.email.errors }}
+                                      <i class="fas fa-envelope"></i>
+                                      <label for="{{ form.email.id_for_label }}">Email Address </label>
+                                      {{ user_form.email }}
+                                    </div>
+                                    <div class="col-md-6">
+                                      {{ user_form.username.errors }}
+                                      <i class="fas fa-user"></i>
+                                      <label for="{{ form.username.id_for_label }}">UserName </label>
+                                      {{ user_form.username }}
+                                    </div>
+                                    <div class="col-md-6">
+                                      {{ user_form.password.errors }}
+                                      <i class="fas fa-lock"></i>
+                                      <label for="{{ form.password.id_for_label }}">Password</label>
+                                      {{user_form.password}}
+                                    </div>
+                                    <div class="col-md-6">
+                                      <i class="fas fa-lock"></i>
+                                      <label for="{{ form.confirm_password.id_for_label }}">Confirm Password</label>
+                                      {{user_form.confirm_password}}
+                                    </div>
+                                    <div class="col-md-6">
+                                      {{ userinfo_form.BuyerOrSeller.errors }}
+                                      <label for="{{ form.BuyerOrSeller.id_for_label }}">Select the type of account:</label>
+                                      {{ userinfo_form.BuyerOrSeller }}
+                                    </div>
+
+
+                                    <div class="col-md-12">
+                                        <input type = "submit" value = "Register">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
   </form>
 </div>
 {% endblock %}

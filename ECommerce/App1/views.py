@@ -18,7 +18,10 @@ def register (request):
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
         userinfo_form = UserInfoForm(data = request.POST)
-        if user_form.is_valid() and userinfo_form.is_valid():
+        password = user_form['password'].value()
+        confirm_password = user_form['confirm_password'].value()
+
+        if user_form.is_valid() and userinfo_form.is_valid() and password == confirm_password:
             #Saving the new user
             user = user_form.save()
             #Hashing the password then save it

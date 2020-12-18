@@ -6,9 +6,16 @@ from colorfield.fields import ColorField
 
 
 class UserForm(forms.ModelForm):
+    first_name=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter your first name','class' : 'form-control'}))
+    last_name=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter your last name', 'class' : 'form-control'}))
+    password=forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter your password', 'class' : 'form-control'}))
+    confirm_password=forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Enter your password', 'class' : 'form-control'}))
+    username=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter your username', 'class' : 'form-control'}))
+    email=forms.CharField(widget=forms.EmailInput(attrs={'placeholder':'Enter your email','class' : 'form-control'}))
     class Meta():
         model = User
-        fields = ('username', 'password')
+        fields = ('first_name','last_name','email','username', 'password')
+
 
 
 
