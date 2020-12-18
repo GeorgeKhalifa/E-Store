@@ -1,0 +1,10 @@
+{% extends 'App1/base.html'%}
+{% block head_block %}
+<title> Home </title>
+{% endblock %}
+{% block body_block %}
+{% for product in products %}
+{% load static %}
+<a href ="{%url 'App1:product_details' product.id%}"><img src="{{ product.picture.url }}"></a>
+{% endfor %}
+{% endblock %}

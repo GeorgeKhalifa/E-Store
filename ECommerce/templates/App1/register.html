@@ -1,0 +1,21 @@
+{% extends 'App1/base.html'%}
+
+{% block head_block %}
+<title> Registration </title>
+{% endblock %}
+
+{% block body_block %}
+<div class = "jumbotron">
+  <h1> Fill in your Information </h1>
+  <form method = "POST">
+    {% csrf_token %}
+    {{user_form.as_p}}
+    {{userinfo_form.as_p}}
+    {% if Tryagain %}
+    <h3> Registration Failed, Please try again </h3>
+    {% endif %}
+
+    <input type = "submit" value = "Register">
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'App1/base.html'%}
+{% block head_block %}
+<title> Product Details </title>
+{% endblock %}
+{% block body_block %}
+<img src="{{ current_product.picture.url }}">
+<p>Price: L.E {{current_product.price}}</p>
+<p>Rating: {{current_product.get_average_rating}}</p>
+{% for product_review in current_product.reviews.all %}
+<div class ="jumbotron">
+  <p>
+    <strong>User:</strong> {{product_review.user.username}},
+    <strong>Date:</strong> {{product_review.date|date:"Y-m-d"}}
+  </p>
+  <p><strong>Rating:</strong>{{product_review.rating}}</p>
+  {{product_review.review_content}}
+</div>
+{% empty %}
+<div class ="jumbotron">
+<p><strong> No Reviews </strong></p>
+</div>
+{% endfor %}
+{% if user.is_authenticated %}
+<form action ="{% url 'App1:product_details' current_product.id%}" method="POST">
+  {% csrf_token %}
+  <label>Rating</label>
+  <select name = "rating">
+    <option value ="1">1</option>
+    <option value ="2">2</option>
+    <option value ="3" selected>3</option>
+    <option value ="4">4</option>
+    <option value ="5">5</option>
+    </select>
+  <label>Content</label>
+  <textarea name="content"></textarea>
+  <input type = "submit" value = "Submit">
+  {% else %}
+  <p>You should sign in to add review</p>
+
+</form>
+{% endif %}
+{% endblock %}
