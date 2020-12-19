@@ -1,0 +1,44 @@
+{% extends 'App1/base.html'%}
+
+{% block head_block %}
+<title> Log In </title>
+{% endblock %}
+
+{% block body_block %}
+<div class="jumbotron">
+  <h2>Log-in Form</h2>
+  <form action="{% url 'App1:user_login' %}" method="post">
+    {% if WrongPassword %}
+    <p><i class="fas fa-exclamation-triangle"></i> Log-in Failed, please make sure your username and password are correct</p>
+    {% endif %}
+
+  {% csrf_token %}
+  <!--<label for="usename">Usename</label>
+  <input type = "text" name = "username" placeholder = "Enter Username">
+  <label for="password">Password</label>
+  <input type = "password" name = "password" placeholder = "Enter Password">
+  <input type = "submit" value = "Log in">-->
+  <div class="col-lg-6">
+                        <div class="login-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <i class="fas fa-user"></i>
+                                    <label>Username</label>
+                                    <input class="form-control" type="text" name = "username" placeholder = "Enter Username"><br>
+                                </div>
+                                <div class="col-md-6">
+                                    <i class="fas fa-lock"></i>
+                                    <label>Password</label>
+                                    <input class="form-control" type="password" name = "password" placeholder = "Enter Password"><br>
+                                </div>
+                                <div class="col-md-12">
+                                  <input type = "submit" value = "Log in">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+  </form>
+
+</div>
+{% endblock %}
