@@ -21,7 +21,9 @@
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
                                             {{current_product.get_average_rating}}
-
+                                             {% comment %} {%for i in average_rating%}
+                                            <i class="fa fa-star"></i>
+                                             {% endfor %} {% endcomment %}
                                         {% comment %} {%if "{{current_product.get_average_rating}}=5" %}
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
