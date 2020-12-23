@@ -3,6 +3,7 @@ from App1.forms import UserInfoForm, UserForm, ProductForm
 from App1.models import UserInfo, Product, ProductReview
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+import math
 
 
 # Create your views here.
@@ -68,8 +69,8 @@ def user_login(request):
                 current_user = UserInfo.objects.filter(user = request.user)
                 if current_user[0].BuyerOrSeller == 'seller':
                     sellerflag = True
-
-                return render(request, 'App1/index.html', {'sellerflag': sellerflag})
+                return redirect('index')
+                #return render(request, 'App1/index.html', {'sellerflag': sellerflag})
             else:
                 WrongPassword = True
                 return render(request, 'App1/login.html', {'WrongPassword': WrongPassword})
@@ -85,7 +86,7 @@ def user_login(request):
 @login_required      #This function isn't executed except if the user is logged in
 def user_logout(request):
     logout(request)
-    return render(request, 'App1/index.html')
+    return redirect('index')
 
 
 #Seller add products to be sold
@@ -113,10 +114,12 @@ def add_product(request):
 def product_details(request, id):
     #Required from John->pass to me the clicked product in main page as current_product
     current_product = Product.objects.filter(id = id)[0]
+    average_rating=math.floor(current_product.get_average_rating())
+    number_of_stars = [i for i in range(average_rating)]
     if request.method =="POST":
         rating = request.POST.get('rating', 3) #3 is the default value
         review_content = request.POST.get('content', '')
         review = ProductReview.objects.create(product = current_product, user = request.user, rating = rating, review_content = review_content)
-        return render(request, 'App1/product_details.html', {'current_product':current_product })
+        return render(request, 'App1/product_details.html', {'current_product':current_product,'number_of_stars':number_of_stars })
     else:
-        return render(request, 'App1/product_details.html', {'current_product':current_product })
+        return render(request, 'App1/product_details.html', {'current_product':current_product, 'number_of_stars':number_of_stars})
