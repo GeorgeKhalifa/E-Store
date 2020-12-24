@@ -116,7 +116,10 @@ def product_details(request, id):
     current_product = Product.objects.filter(id = id)[0]
     average_rating=math.floor(current_product.get_average_rating())
     number_of_stars = [i for i in range(average_rating)]
-    current_user = UserInfo.objects.filter(user = request.user)[0]
+    if(request.user.is_authenticated):
+        current_user = UserInfo.objects.filter(user = request.user)[0]
+    else:
+        current_user = "null"
     if request.method =="POST":
         rating = request.POST.get('rating', 3) #3 is the default value
         review_content = request.POST.get('content', '')
