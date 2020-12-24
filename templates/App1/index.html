@@ -75,7 +75,7 @@
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                                 <div class="dropdown-menu">
                                     <a href="wishlist.html" class="dropdown-item">Wishlist</a>
-                                    <a href="{%url 'App1:register'%}" class="dropdown-item">Login & Register</a>
+                                    <a href="{% url 'App1:register'%}" class="dropdown-item">Login & Register</a>
                                     <a href="contact.html" class="dropdown-item">Contact Us</a>
                                 </div>
                             </div>
@@ -84,8 +84,8 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
                                 <div class="dropdown-menu">
-                                    <a href="#" class="dropdown-item">Login</a>
-                                    <a href="#" class="dropdown-item">Register</a>
+                                    <a href="{% url 'App1:user_login'%}" class="dropdown-item">Login</a>
+                                    <a href="{% url 'App1:register'%}" class="dropdown-item">Register</a>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                     <div class="col-md-3">
                         <div class="logo">
                             <a href="index.html">
-                                <img src="img/logo.png" alt="Logo">
+                                <img src={% static 'img/logo.png' %} alt="Logo">
                             </a>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                                     </div>
                                     <div class="product-price">
                                         <h3><span>{{product.currency}}</span>{{product.price}}</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy</a>
                                     </div>
                                 </div>
                             </div>

@@ -113,10 +113,11 @@ def add_product(request):
 def product_details(request, id):
     #Required from John->pass to me the clicked product in main page as current_product
     current_product = Product.objects.filter(id = id)[0]
+    # average_rating=round (current_product.get_average_rating,0)
     if request.method =="POST":
         rating = request.POST.get('rating', 3) #3 is the default value
         review_content = request.POST.get('content', '')
         review = ProductReview.objects.create(product = current_product, user = request.user, rating = rating, review_content = review_content)
         return render(request, 'App1/product_details.html', {'current_product':current_product })
     else:
-        return render(request, 'App1/product_details.html', {'current_product':current_product })
+        return render(request, 'App1/product_details.html', {'current_product':current_product})
