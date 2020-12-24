@@ -152,7 +152,7 @@
                                             <p><strong> No Reviews </strong></p>
                                         </div>
                                         {% endfor %}
-                                        {% if user.is_authenticated and user.BuyerOrSeller == 'seller'%}
+                                        {% if user.is_authenticated and current_user.BuyerOrSeller == 'buyer'%}
                                         <div class="reviews-submit">
                                         <form action ="{% url 'App1:product_details' current_product.id%}" method="POST">
                                             <h4>Give your Review:</h4>
@@ -185,16 +185,19 @@
                                                 <div class="col-sm-12">
                                                 <input type = "submit" value = "Submit">
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                      </form>
+
                         {% elif not user.is_authenticated %}
                         <p>You should sign in to add review</p>
 
-                      </form>
+
                       {% endif %}
 
                         <div class="product">

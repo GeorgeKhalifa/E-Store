@@ -116,10 +116,11 @@ def product_details(request, id):
     current_product = Product.objects.filter(id = id)[0]
     average_rating=math.floor(current_product.get_average_rating())
     number_of_stars = [i for i in range(average_rating)]
+    current_user = UserInfo.objects.filter(user = request.user)[0]
     if request.method =="POST":
         rating = request.POST.get('rating', 3) #3 is the default value
         review_content = request.POST.get('content', '')
         review = ProductReview.objects.create(product = current_product, user = request.user, rating = rating, review_content = review_content)
-        return render(request, 'App1/product_details.html', {'current_product':current_product,'number_of_stars':number_of_stars })
+        return render(request, 'App1/product_details.html', {'current_product':current_product,'number_of_stars':number_of_stars, 'current_user':current_user })
     else:
-        return render(request, 'App1/product_details.html', {'current_product':current_product, 'number_of_stars':number_of_stars})
+        return render(request, 'App1/product_details.html', {'current_product':current_product, 'number_of_stars':number_of_stars, 'current_user':current_user})
