@@ -110,9 +110,6 @@
                                         <a class="nav-link active" data-toggle="pill" href="#description">Description</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-toggle="pill" href="#specification">Specification</a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a class="nav-link" data-toggle="pill" href="#reviews">Reviews</a>
                                     </li>
                                 </ul>
@@ -124,26 +121,16 @@
                                             {{current_product.details}}
                                         </p>
                                     </div>
-                                    <div id="specification" class="container tab-pane fade">
-                                        <h4>Product specification</h4>
-                                        <ul>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                            <li>Lorem ipsum dolor sit amet</li>
-                                        </ul>
-                                    </div>
                                     <div id="reviews" class="container tab-pane fade">
                                         <div class="reviews-submitted">
                                         {% for product_review in current_product.reviews.all %}
                                             <div class="reviewer">{{product_review.user.first_name }} {{product_review.user.last_name}} - <span>{{product_review.date|date:"Y-m-d"}}</span></div>
                                             <div class="ratting">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                            {% with ''|center:product_review.rating as range %}
+{% for _ in range %}
+    <i class="fa fa-star"></i>
+{% endfor %}
+{% endwith %}
                                                 {{product_review.rating}}
                                             </div>
                                             <p>{{product_review.review_content}}
@@ -156,20 +143,20 @@
                                         <div class="reviews-submit">
                                         <form action ="{% url 'App1:product_details' current_product.id%}" method="POST">
                                             <h4>Give your Review:</h4>
-                                            <div class="ratting">
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <select name = "rating">
-                                                <option value ="1">1</option>
-                                                <option value ="2">2</option>
-                                                <option value ="3" selected>3</option>
-                                                <option value ="4">4</option>
-                                                <option value ="5">5</option>
-                                                </select>
-                                            </div>
+                                             <div class="ratting">
+                                              <div class ='stars' >
+ <input class="star star-5" id="star-5" type="radio" name="rating" value = "5"/>
+  <label class="star star-5" for="star-5"></label>
+  <input class="star star-4" id="star-4" type="radio" name="rating"  value = "4" />
+  <label class="star star-4" for="star-4"></label>
+  <input class="star star-3" id="star-3" type="radio" name="rating"  value = "3"/>
+  <label class="star star-3" for="star-3"></label>
+  <input class="star star-2" id="star-2" type="radio" name="rating" value = "2"/>
+  <label class="star star-2" for="star-2"></label>
+  <input class="star star-1" id="star-1" type="radio" name="rating" value = "1"/>
+  <label class="star star-1" for="star-1"></label> 
+</div>
+</div>
                                             <div class="row form">
                                                 {% comment %} <div class="col-sm-6">
                                                     <input type="text" placeholder="Name">
