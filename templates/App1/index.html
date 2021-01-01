@@ -64,7 +64,16 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                                 <div class="dropdown-menu">
-                                    <a href="wishlist.html" class="dropdown-item">Wishlist</a>
+                                {% if  request.user.is_authenticated %}
+                                            <div>
+                                    <a href="{% url 'App1:favourite_list'%}" class="dropdown-item">Favourite List</a>                                           
+                                            </div>
+                                            {% else %}
+                                            <div>
+                                            <a href="{%url 'App1:register'%}" class="dropdown-item">Favourite List</a>
+                                            </div>
+                                            {% endif %}
+
                                     <a href="{% url 'App1:register'%}" class="dropdown-item">Login & Register</a>
                                     <a href="contact.html" class="dropdown-item">Contact Us</a>
                                 </div>
@@ -208,7 +217,17 @@
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            <a href="#"><i class="fa fa-heart"></i></a>
+                                            {% if  request.user.is_authenticated %}
+                                            <div>
+                                            <a href="{%url 'App1:favourite_add' product.id%}"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                            
+                                            {% else %}
+                                            <div>
+                                            <a href="{%url 'App1:register'%}"><i class="fa fa-heart"></i></a>
+
+                                            </div>
+                                            {% endif %}
                                             <a href="{%url 'App1:product_details' product.id%}"><i class="fa fa-search"></i></a>
                                         </div>
                                     </div>
@@ -284,7 +303,14 @@
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
+
+
+
                                             <a href="#"><i class="fa fa-heart"></i></a>
+
+
+
+
                                             <a href="{%url 'App1:product_details' product.id%}"><i class="fa fa-search"></i></a>
                                         </div>
                                     </div>
