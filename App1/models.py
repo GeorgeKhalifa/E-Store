@@ -16,7 +16,7 @@ main_category_choices = (('men','Men'),('women','Women'),('kids','Kids'))
 secondary_choices = (('top','Top'),('bottom','Bottom'),('coats_jackets','Coats/Jackets'))
 
 class Product(models.Model):
-    id = models.AutoField(primary_key=True) 
+    id = models.AutoField(primary_key=True)
     seller = models.ForeignKey(to = User,on_delete = models.CASCADE)
     name=models.CharField(max_length=20,default='')
     # product_type = models.CharField(max_length = 20, default = "shirt") #product_second_category
@@ -29,7 +29,9 @@ class Product(models.Model):
     secondary_category=  models.CharField(default='Top',choices=secondary_choices,max_length=20)
     details=models.CharField(default='',max_length=2000)
     def get_average_rating(self):
-        average = sum(int(review['rating']) for review in self.reviews.values())
+        review = ProductReview.objects.filter(product = self)
+        average = sum(int(rev.get_rating()) for rev in review)
+        #average = sum(int(review['rating']) for review in self.reviews.values())
         count = self.reviews.count()
         if count > 0:
             return round(average/count, 1)
@@ -44,3 +46,5 @@ class ProductReview(models.Model):
     review_content = models.TextField(blank = True, null = True)
     rating = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
+    def get_rating (self):
+        return self.rating;
