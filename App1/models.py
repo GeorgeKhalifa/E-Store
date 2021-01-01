@@ -8,8 +8,6 @@ class UserInfo(models.Model):
     BuyerOrSeller = models.CharField(max_length = 30)
 
 
-
-
 size_choices = (('S','S'),('M','M'),('L','L'),('XL','XL'))
 currency_choices = (('$','$'),('€','€'),('L.E','L.E'))
 main_category_choices = (('men','Men'),('women','Women'),('kids','Kids'))
@@ -28,6 +26,9 @@ class Product(models.Model):
     main_category= models.CharField(default='Men',choices=main_category_choices,max_length=20)
     secondary_category=  models.CharField(default='Top',choices=secondary_choices,max_length=20)
     details=models.CharField(default='',max_length=2000)
+#    discount = models.DecimalField(max_length = 13, decimal_places = 2, max_digits = 10) #product_price
+
+    favourites =models.ManyToManyField(User,related_name='favourite',default=None,blank=True)
     def get_average_rating(self):
         average = sum(int(review['rating']) for review in self.reviews.values())
         count = self.reviews.count()
@@ -44,3 +45,5 @@ class ProductReview(models.Model):
     review_content = models.TextField(blank = True, null = True)
     rating = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
+
+
