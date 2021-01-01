@@ -48,4 +48,4 @@ class ProductReview(models.Model):
     rating = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
     def get_rating (self):
-        return self.rating;
+        return self.rating
