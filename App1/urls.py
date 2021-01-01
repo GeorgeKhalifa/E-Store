@@ -11,5 +11,9 @@ urlpatterns = [url(r'^register/$', views.register, name = 'register'),
                url(r'^login/$', views.user_login, name = 'user_login'),
                url(r'^logout/$', views.user_logout, name = 'user_logout'),
                url(r'^add_product/$', views.add_product, name = 'add_product'),
-               url(r'^product_details/(?P<id>\w+)/$', views.product_details, name='product_details'),]
+               url(r'^product_details/(?P<id>\w+)/$', views.product_details, name='product_details'),
+               url(r'^fav/(?P<id>\w+)/$', views.favourite_add,name='favourite_add'),
+               url(r'^favourites/$', views.favourite_list, name='favourite_list'),
+               
+               ]
 #

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles','App1', 'colorfield',
+    'django.contrib.staticfiles','App1',
     #  'reviews',                       #colorfield added for colorpicker
 ]
 

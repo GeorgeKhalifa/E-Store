@@ -13,6 +13,7 @@
 
             <!-- Favicon -->
             <link href="img/favicon.ico" rel="icon">
+            <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 
             <!-- Google Fonts -->
             <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Source+Code+Pro:700,900&display=swap" rel="stylesheet">
@@ -25,6 +26,8 @@
 
             <!-- Template Stylesheet -->
             <link href="{% static 'css/style.css' %}" rel="stylesheet">
+            <link href="{% static 'css/star-rating.css' %}" rel="stylesheet">
+
     {% comment %} {% block head_block %}
     {% endblock %} {% endcomment %}
   </head>
@@ -83,7 +86,7 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                                 <div class="dropdown-menu">
-                                    <a href="wishlist.html" class="dropdown-item">Wishlist</a>
+                                    <a href="{% url 'App1:favourite_list'%}" class="dropdown-item">Favourite List</a>
                                     <a href="{% url 'App1:register'%}" class="dropdown-item">Login & Register</a>
                                     <a href="contact.html" class="dropdown-item">Contact Us</a>
                                 </div>

@@ -3,12 +3,14 @@ from App1.forms import UserInfoForm, UserForm, ProductForm
 from App1.models import UserInfo, Product, ProductReview
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
 import math
 
 
 # Create your views here.
 #Return Homepage of the products
-def index (request):
+def index(request):
     products = Product.objects.order_by('price')
     return render(request, 'APP1/index.html', {'products' :products})
 
@@ -127,3 +129,21 @@ def product_details(request, id):
         return render(request, 'App1/product_details.html', {'current_product':current_product,'number_of_stars':number_of_stars, 'current_user':current_user })
     else:
         return render(request, 'App1/product_details.html', {'current_product':current_product, 'number_of_stars':number_of_stars, 'current_user':current_user})
+
+
+@login_required
+def favourite_list(request):
+    new = Product.objects.filter(favourites=request.user)
+    return render(request,'App1/favourites.html',{'new':new})
+
+
+
+
+@login_required
+def favourite_add(request,id):
+    product= get_object_or_404(Product,id=id)
+    if product.favourites.filter(id=request.user.id).exists():
+        product.favourites.remove(request.user)
+    else:
+        product.favourites.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
