@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
+from django.urls import reverse
 from App1.forms import UserInfoForm, UserForm, ProductForm
-from App1.models import UserInfo, Product, ProductReview
+from App1.models import UserInfo, Product, ProductReview, CartItem
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404
@@ -79,7 +80,7 @@ def register (request):
             userinfo.user = user
             userinfo.save()
             #Put registered = true to change the view of the homepage for the registered users
-            #reistered = True
+            #registered = True
             return render(request, 'App1/login.html')
         else:
             #Tryagain allows making changes to the register.html page
@@ -163,7 +164,7 @@ def product_details(request, id):
     average_rating=math.floor(current_product.get_average_rating())
     number_of_stars = [i for i in range(average_rating)]
     if(request.user.is_authenticated):
-        current_user = UserInfo.objects.filter(user = request.user)[0]
+        current_user = UserInfo.objects.filter(user = request.user).first()    #changed it due to an indexerror
     else:
         current_user = "null"
     if request.method =="POST":
@@ -189,3 +190,32 @@ def favourite_add(request,id):
     else:
         product.favourites.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+#Cart page function
+@login_required
+def cart_page(request):
+    cart = CartItem.objects.filter(user = request.user, purchased = False)
+    return render(request, 'App1/cart_page.html', {"cart":cart})
+
+
+#Update Cart with items added only (what addtocart button does)
+@login_required
+def update_cart(request, id):
+    if CartItem.objects.filter(user = request.user, item_id=id, purchased=False).exists():
+        product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
+        product.quantity += 1
+        product.total_item_price = product.quantity * product.item.price
+    else:
+        product = CartItem(user = request.user, item = Product.objects.filter(id = id).first(),
+        total_item_price = Product.objects.filter(id = id).first().price )
+
+    product.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    
+#Update Cart with items removed only (what remove button does)
+@login_required
+def remove_from_cart(request, id):
+    cart = CartItem.objects.filter(user = request.user, purchased = False)
+    item_to_be_removed = CartItem.objects.filter(user = request.user, id = id, purchased = False).first()
+    item_to_be_removed.delete()
+    return render(request, 'App1/cart_page.html', {"cart":cart})

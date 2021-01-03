@@ -1,5 +1,7 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
+
 # Create your models here.
 
 class UserInfo(models.Model):
@@ -49,3 +51,16 @@ class ProductReview(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     def get_rating (self):
         return self.rating
+
+
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    item = models.ForeignKey(Product, on_delete = models.CASCADE) 
+    quantity = models.PositiveIntegerField(default = 1) #still needed to be less than item.in_stock
+    total_item_price = models.DecimalField(decimal_places = 2, max_digits = 10, default = 100.00) #still needed to be default the item price & quantity*item.price
+    purchased = models.BooleanField(default = False)
+    #we need to implement a view to add a cartitem and/or increase its quantity
+    #we need to implement a view to remove a cartitem to be accessed from cart_page.html
+    #we need to implement a view to calculate the total_item_price 
+
+
