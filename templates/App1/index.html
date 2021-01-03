@@ -117,10 +117,23 @@
                     </div>
                     <div class="col-md-3">
                         <div class="user">
-                            <a href="wishlist.html" class="btn wishlist">
+
+                      {% if  request.user.is_authenticated %}                     
+
+
+                            <a href="{% url 'App1:favourite_list'%}" class="btn wishlist">
                                 <i class="fa fa-heart"></i>
                                 <span></span>
                             </a>
+                            {% else %}
+                             <a href="{% url 'App1:register'%}" class="btn wishlist">
+                                <i class="fa fa-heart"></i>
+                                <span></span>
+                            </a>
+
+
+                            {% endif %}
+
                             <a href="cart.html" class="btn cart">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>(0)</span>
