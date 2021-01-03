@@ -25,7 +25,7 @@ class Product(models.Model):
     picture = models.ImageField(upload_to = 'product_picture/', default = 'null.png')
     main_category= models.CharField(default='Men',choices=main_category_choices,max_length=20)
     secondary_category=  models.CharField(default='Top',choices=secondary_choices,max_length=20)
-    details=models.CharField(default='',max_length=2000)
+    details=models.CharField(default='',max_length=1999)
 #    discount = models.DecimalField(max_length = 13, decimal_places = 2, max_digits = 10) #product_price
 
     favourites =models.ManyToManyField(User,related_name='favourite',default=None,blank=True)
