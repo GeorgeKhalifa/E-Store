@@ -1,8 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from App1.models import UserInfo, Product
-from colorfield.fields import ColorField
-
 
 
 class UserForm(forms.ModelForm):
