@@ -6,6 +6,11 @@ class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)         # Means if the user is deleted, the corresponding user info is also deleted
 
     BuyerOrSeller = models.CharField(max_length = 30)
+    offer_points = models.PositiveIntegerField(default = 0, blank=True);
+    def set_offer_points(self, new_points):
+        self.offer_points = new_points
+    def get_offer_points(self):
+        return self.offer_points
 
 
 size_choices = (('S','S'),('M','M'),('L','L'),('XL','XL'))
