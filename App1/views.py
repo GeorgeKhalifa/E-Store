@@ -10,9 +10,52 @@ import math
 
 # Create your views here.
 #Return Homepage of the products
-def index(request):
-    products = Product.objects.order_by('price')
+def index (request):
+     search_query=request.GET.get('search', '')
+     search_query2=request.GET.get('search2', '')
+     if search_query:
+         products=Product.objects.all().filter(name__icontains=search_query)
+     elif search_query2:
+         products=Product.objects.all().filter(secondary_category__icontains=search_query2)
+     else:
+         products = Product.objects.all()
+     return render(request, 'APP1/index.html', {'products' :products})
+
+def index_sort_price (request):
+     products = Product.objects.order_by('price')
+     return render(request, 'APP1/index.html', {'products' :products})     
+
+def index_sort_newest (request):
+     products = Product.objects.order_by('id').reverse()
+     return render(request, 'APP1/index.html', {'products' :products})
+
+def index_sort_rating (request):
+     products=sorted(Product.objects.all(),key=lambda x:x.get_average_rating(),reverse=True)
+     return render(request, 'APP1/index.html', {'products' :products})     
+
+def index_category (request):
+        products = Product.objects.all().filter(main_category='men')
+        return render(request, 'APP1/index.html', {'products' :products})
+
+def index_category1 (request):
+        products = Product.objects.all().filter(main_category='women')
+        return render(request, 'APP1/index.html', {'products' :products})
+
+def index_category2 (request):
+        products = Product.objects.all().filter(main_category='kids')
+        return render(request, 'APP1/index.html', {'products' :products})
+
+def index_category3 (request):
+    products = Product.objects.all().filter(secondary_category='top')
     return render(request, 'APP1/index.html', {'products' :products})
+
+def index_category4 (request):
+    products=Product.objects.all().filter(secondary_category='bottom')
+    return render(request, 'APP1/index.html', {'products':products})
+
+def index_category5 (request):
+    products=Product.objects.all().filter(secondary_category='coats_jackets')
+    return render(request, 'APP1/index.html', {'products':products})
 
 def register (request):
     #Check if the form is submitted
@@ -115,6 +158,7 @@ def add_product(request):
 #Product details page function
 def product_details(request, id):
     #Required from John->pass to me the clicked product in main page as current_product
+    products = Product.objects.all()
     current_product = Product.objects.filter(id = id)[0]
     average_rating=math.floor(current_product.get_average_rating())
     number_of_stars = [i for i in range(average_rating)]
@@ -126,17 +170,15 @@ def product_details(request, id):
         rating = request.POST.get('rating', 3) #3 is the default value
         review_content = request.POST.get('content', '')
         review = ProductReview.objects.create(product = current_product, user = request.user, rating = rating, review_content = review_content)
-        return render(request, 'App1/product_details.html', {'current_product':current_product,'number_of_stars':number_of_stars, 'current_user':current_user })
+        return render(request, 'App1/product_details.html', {'current_product':current_product,'number_of_stars':number_of_stars, 'current_user':current_user,'products':products })
     else:
-        return render(request, 'App1/product_details.html', {'current_product':current_product, 'number_of_stars':number_of_stars, 'current_user':current_user})
+        return render(request, 'App1/product_details.html', {'current_product':current_product, 'number_of_stars':number_of_stars, 'current_user':current_user,'products':products})
 
 
 @login_required
 def favourite_list(request):
     new = Product.objects.filter(favourites=request.user)
     return render(request,'App1/favourites.html',{'new':new})
-
-
 
 
 @login_required
