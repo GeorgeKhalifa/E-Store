@@ -55,7 +55,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <i class="fa fa-envelope"></i>
-                        https://github.com/GeorgeKhalifa/E-Store/
+                        <a href="https://github.com/GeorgeKhalifa/E-Store/"> https://github.com/GeorgeKhalifa/E-Store/</a>
                     </div>
                     <div class="col-sm-6">
                         <i class="fa fa-phone-alt"></i>
@@ -83,10 +83,19 @@
                             <a href="cart.html" class="nav-item nav-link">Cart</a>
                             <a href="checkout.html" class="nav-item nav-link">Checkout</a>
                             <a href="my-account.html" class="nav-item nav-link">My Account</a>
+                            <a href="{% url 'App1:add_product'%}" class="nav-item nav-link">Add Products</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                                 <div class="dropdown-menu">
-                                    <a href="{% url 'App1:favourite_list'%}" class="dropdown-item">Favourite List</a>
+                                    {% if  request.user.is_authenticated %}
+                                            <div>
+                                    <a href="{% url 'App1:favourite_list'%}" class="dropdown-item">Favourite List</a>                                           
+                                            </div>
+                                            {% else %}
+                                            <div>
+                                            <a href="{%url 'App1:register'%}" class="dropdown-item">Favourite List</a>
+                                            </div>
+                                            {% endif %}
                                     <a href="{% url 'App1:register'%}" class="dropdown-item">Login & Register</a>
                                     <a href="contact.html" class="dropdown-item">Contact Us</a>
                                 </div>
@@ -117,16 +126,18 @@
                 <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="logo">
-                            <a href="index.html">
+                            <a href="{%url 'index'%}">
                                 <img src= {% static 'img/logo.png' %} alt="Logo">
                             </a>
                         </div>
                     </div>
                     <div class="col-md-6">
+                       <form action="{%url 'index'%}">
                         <div class="search">
-                            <input type="text" placeholder="Search">
+                            <input type="text" placeholder="Search" name="search">
                             <button><i class="fa fa-search"></i></button>
                         </div>
+                        </form>
                     </div>
                     <div class="col-md-3">
                         <div class="user">
@@ -243,12 +254,9 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6 copyright">
-                        <p>Copyright &copy; <a href="https://htmlcodex.com">HTML Codex</a>. All Rights Reserved</p>
+                    <div class="col-md-6">
                     </div>
-
-                    <div class="col-md-6 template-by">
-                        <p>Template By <a href="https://htmlcodex.com">HTML Codex</a></p>
+                    <div class="col-md-6">
                     </div>
                 </div>
             </div>

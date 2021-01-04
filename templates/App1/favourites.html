@@ -1,61 +1,52 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 {% extends 'App1/base.html'%}
 <title>Favourite List</title>
 {% block body_block %}
 
 
-<h1>WELCOME TO YOUR FAVOURITES!</h1>
-
-
-{% comment %} <img src="{{product.picture.url}}" alt="Product Image">
-{{product.currency}}
-{{product.price}} {% endcomment %}
-        <div class="product-view">
+<h1 style="text-align:center">WELCOME TO YOUR FAVOURITES LIST!</h1>
+        <!-- Wishlist Start -->
+        <div class="wishlist-page">
             <div class="container-fluid">
-                <div class="row">
-
-   {% for product in new %}
-                               <div class="col-md-4">                            <a href="{%url 'App1:product_details' product.id%}">
-                                <div class="product-item">
-                                    <div class="product-title">
-                                        <a href="{%url 'App1:product_details' product.id%}">{{product.name}}</a>
-                                        <div class="ratting">
-{% with ''|center:product.get_average_rating as range %}
-{% for _ in range %}
-    <i class="fa fa-star"></i>
-{% endfor %}
-{% endwith %}
-                                        </div>
-                                    </div>
-                                    <div class="product-image">
-                                        <a href="{%url 'App1:product_details' product.id%}">
-                                            <img src="{{product.picture.url}}" alt="Product Image" height=300px>
-                                        </a>
-                                        <div class="product-action">
-                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            {% if  request.user.is_authenticated %}
-                                            <div>
-                                            <a href="{%url 'App1:favourite_add' product.id%}"><i class="fa fa-heart"></i></a>
-                                            </div>
-                                            
-                                            {% else %}
-                                            <div>
-                                            <a href="{%url 'App1:register'%}"><i class="fa fa-heart"></i></a>
-                                            
-                                            </div>
+                <div class="wishlist-page-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Add to Cart</th>
+                                            <th>Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                    {% for product in new %}
+                                        <tr>
+                                            <td>
+                                            <a href="{%url 'App1:product_details' product.id%}">
+                                                <div class="img">
+                                                   <a href="{%url 'App1:product_details' product.id%}">
+                                            <img src="{{product.picture.url}}" alt="Product Image" height=100px width=100px></a>
+                                                    <p><a href="{%url 'App1:product_details' product.id%}">{{product.name}}</a></p>
+                                                </div>
+                                            </td>
+                                            <td>{{product.currency}}{{product.price}}</td>
+                                             {% if  request.user.is_authenticated %}
+                                            <td><button class="btn-cart">Add to Cart</button></td>
+                                            <td> <a href="{%url 'App1:favourite_add' product.id%}"><button><i class="fa fa-trash"></i></button></a></td>
                                             {% endif %}
-                                            <a href="{%url 'App1:product_details' product.id%}"><i class="fa fa-search"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-price">
-                                        <h3><span>{{product.currency}}</span>{{product.price}}</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy</a>
-                                    </div>
-                                </div>
+                                        </tr>
+                                    </tbody>
+                                     {% endfor %}
+                                </table>
                             </div>
-                            {% endfor %}
-                            </div>
-                            </div>
-                            </div>
-
-                            {% endblock body_block %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Wishlist End -->
+         {% endblock body_block %}
+       
