@@ -23,5 +23,8 @@ urlpatterns = [url(r'^register/$', views.register, name = 'register'),
                url(r'^index_category3/$',views.index_category3, name='index_category3'),
                url(r'^index_category4/$',views.index_category4, name='index_category4'),
                url(r'^index_category5/$',views.index_category5, name='index_category5'),
-               ]
+               url(r'^cart/$', views.cart_page, name = 'cart'),
+               url(r'^update_cart/(?P<id>\w+)/$', views.update_cart, name='update_cart'),
+               url(r'^cart/remove_from_cart/(?P<id>\w+)/$', views.remove_from_cart, name='remove_from_cart'),
+]
 #

@@ -1,0 +1,22 @@
+{% extends 'App1/base.html'%}
+<title> Cart </title>
+
+{% block body_block %}
+
+<table class = 'table'>
+<thead>
+<th>Item</th><th>Price</th><th>Quantity</th><th>Total Item Price</th><th></th>
+</thead>
+<tfoot>
+<tr><td></td><td></td><td></td><td></td><td>Total: </td></tr> {% comment %}{{ order.sub_total }}{% endcomment %}
+</tfoot>
+{% for item in cart %}
+
+<tr><td>{{ item.item.name }}</td><td>{{ item.item.price }}</td><td>{{ item.quantity }}{% comment %} needs to be a button with link to App1:update_cart
+{% endcomment %}</td><td>{{ item.total_item_price }}</td><td><a href="{% url "App1:remove_from_cart" item.id%}">Remove</a></td></tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}
