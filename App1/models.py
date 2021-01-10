@@ -8,7 +8,11 @@ class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)         # Means if the user is deleted, the corresponding user info is also deleted
 
     BuyerOrSeller = models.CharField(max_length = 30)
-
+    offer_points = models.PositiveIntegerField(default=10, blank=True)
+    def set_offer_points(self, new_points):
+        self.offer_points = new_points
+    def get_offer_points(self):
+        return self.offer_points
 
 size_choices = (('S','S'),('M','M'),('L','L'),('XL','XL'))
 currency_choices = (('$','$'),('€','€'),('L.E','L.E'))
@@ -57,10 +61,21 @@ class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     item = models.ForeignKey(Product, on_delete = models.CASCADE) 
     quantity = models.PositiveIntegerField(default = 1) #still needed to be less than item.in_stock
-    total_item_price = models.DecimalField(decimal_places = 2, max_digits = 10, default = 100.00) #still needed to be default the item price & quantity*item.price
+    total_item_price = models.FloatField(max_length=6, default = 100.00) #still needed to be default the item price & quantity*item.price
     purchased = models.BooleanField(default = False)
     #we need to implement a view to add a cartitem and/or increase its quantity
     #we need to implement a view to remove a cartitem to be accessed from cart_page.html
     #we need to implement a view to calculate the total_item_price 
 
-
+payment_choices = (('cod','COD(Cash on delivery)'),('credit','Credit Card'))
+class Order (models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE, default=None, null=True)
+    address = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=11)
+    zip_code = models.IntegerField(max_length=4, default=0000)
+    currency =  models.CharField(default='$', choices=currency_choices, max_length=20)
+    payment_method = models.CharField(default='cod', choices=payment_choices, max_length=20)
+    total_cost = models.FloatField(default=0.00, max_length=6)
+    new_total_cost = models.FloatField(max_length=10, default=0.00)
+    discount_points = models.CharField(default=10, max_length=4)
+    purchase_date = models.DateTimeField(auto_now_add=True)

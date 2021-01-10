@@ -6,4 +6,3 @@ admin.site.register(UserInfo)
 admin.site.register(Product)
 admin.site.register(ProductReview)
 admin.site.register(CartItem)
-
