@@ -258,21 +258,11 @@ def checkout(request):
                 return render(request, 'App1/checkout2.html', {'new_total_cost': new_total_cost, 'currency': currency})    
             elif (payment_method == 'cod'):
                 return render(request, 'App1/checkout3.html', {'new_total_cost': new_total_cost, 'currency': currency})
-            for product in products:
-                product.purchased = True
-                product.item.in_stock = product.item.in_stock-product.quantity
-                product.save()
             
         else:
-            for product in products:
-                product.purchased=False
-                product.save()
             return render(request, 'App1/checkout.html', {'checkout_form': checkout_form, 'total_cost': total_cost, 'points': points})
 
     else:
-        for product in products:
-            product.purchased=False
-            product.save()
         return render(request, 'App1/checkout.html', {'checkout_form': checkout_form, 'total_cost': total_cost, 'points': points})
 
 #Go to Credit card info view
@@ -284,8 +274,14 @@ def checkout2(request):
 @login_required
 def checkout3(request):
     return confirm(request)
+    
 #Confirm payment view
 @login_required
 def confirm(request):
+    products = CartItem.objects.filter(user = request.user, purchased=False)
+    for product in products:
+        product.purchased = True
+        product.item.in_stock = product.item.in_stock-product.quantity
+        product.save()
     return render(request, 'App1/confirm_payment.html')
 
