@@ -33,3 +33,12 @@ class ProductForm (forms.ModelForm):
     class Meta ():
         model = Product
         exclude = ['seller']
+        #fields = ('id','name','in_stock', 'currency', 'size', 'price','main_category','secondary_category')
+       
+class StatusForm (forms.ModelForm):
+    class Meta ():
+        model = Product
+        fields = ('id','name','in_stock','price','details')
+        
+       
+

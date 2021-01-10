@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from App1.forms import UserInfoForm, UserForm, ProductForm
+from App1.forms import UserInfoForm, UserForm, ProductForm,StatusForm
 from App1.models import UserInfo, Product, ProductReview
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 import math
 
 
@@ -136,9 +137,6 @@ def favourite_list(request):
     new = Product.objects.filter(favourites=request.user)
     return render(request,'App1/favourites.html',{'new':new})
 
-
-
-
 @login_required
 def favourite_add(request,id):
     product= get_object_or_404(Product,id=id)
@@ -147,3 +145,47 @@ def favourite_add(request,id):
     else:
         product.favourites.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required   
+def product_status(request):
+    Products=Product.objects.filter(seller=request.user)
+    return render(request,'App1/product_status.html',{'editupdate':Products})
+
+@login_required  
+def edit_product(request,id):
+    displayprod=Product.objects.get(id=id)
+    return render(request,'App1/edit_product.html',{'editupdate':displayprod})
+
+
+@login_required  
+def update_product(request,id):
+    updateprod=Product.objects.get(id=id)
+    product_form=StatusForm(request.POST,instance=updateprod)
+    if product_form.is_valid():
+        product_form.save()
+        #messages.success(request,"Product updated successfully!")
+        return redirect ('App1:product_status')
+        #return render(request, 'App1/edit_product.html', {'editupdate':updateprod})
+   
+
+    return render(request, 'App1/edit_product.html', {'editupdate':updateprod})
+
+@login_required
+def remove_product(request, id):
+    Removed_Product= Product.objects.get(id=id)
+    Removed_Product.delete()
+    return redirect ("App1:product_status")
+    #return render(request, 'App1/product_status.html', context)
+
+   
+
+
+
+
+
+
+
+   
+    
+
+   
