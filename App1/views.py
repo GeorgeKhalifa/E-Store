@@ -221,17 +221,22 @@ def remove_from_cart(request, id):
     return render(request, 'App1/cart_page.html', {"cart":cart})
 
 
-
 #Checkout view
 @login_required
 def checkout(request):
+    checkout_order = Order()
     checkout_form = OrderForm()
     user_info = UserInfo.objects.filter(user = request.user)[0]
     products = CartItem.objects.filter(user = request.user, purchased=False)
     total_cost = 0
     new_total_cost = 0
     points = user_info.get_offer_points()
+    
     for product in products:
+        if (product.item.currency == 'L.E'):
+            product.total_item_price *= 15.7
+        elif (product.item.currency == '€'):
+            product.total_item_price *= 0.82
         total_cost += product.total_item_price
 
     if request.method == 'POST':
@@ -243,17 +248,27 @@ def checkout(request):
             discount_points = request.POST.get('discount_points')
 
             if (discount_points == 'yes'):
-                new_total_cost = total_cost*(points/100)
-                points = 0
+                if (points == 0):
+                    new_total_cost = total_cost
+                else:
+                    new_total_cost = total_cost*(points/100)
+                    points = 0
             elif (discount_points == 'no'):
                 new_total_cost = total_cost
                 points = points+(int)(total_cost/10)
+            
             user_info.set_offer_points(points)
             user_info.save()
+            
             if (currency == 'L.E'):
                 new_total_cost *= 15.7
             elif (currency == '€'):
                 new_total_cost *= 0.82
+
+            checkout_order.total_cost = total_cost
+            checkout_order.new_total_cost = new_total_cost
+            checkout_order.save()
+
             if (payment_method == 'credit'):
                 return render(request, 'App1/checkout2.html', {'new_total_cost': new_total_cost, 'currency': currency})    
             elif (payment_method == 'cod'):
