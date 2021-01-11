@@ -33,6 +33,8 @@ class Product(models.Model):
     secondary_category=  models.CharField(default='Top',choices=secondary_choices,max_length=20)
     details=models.CharField(default='',max_length=1999)
 #    discount = models.DecimalField(max_length = 13, decimal_places = 2, max_digits = 10) #product_price
+    views = models.ManyToManyField(User,related_name='view',default=None,blank=True)
+
 
     favourites =models.ManyToManyField(User,related_name='favourite',default=None,blank=True)
     def get_average_rating(self):

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends 'App1/base.html'%}
+<title>Favourite List</title>
+{% block body_block %}
+
+
+<h1>WELCOME TO YOUR filtered_views!</h1>
+{{men_count}}
+{% for product in recommended_products  %}
+<div class="col-md-4">                            <a href="{%url 'App1:product_details' product.id%}">
+                                <div class="product-item">
+                                    <div class="product-title">
+                                        <a href="{%url 'App1:product_details' product.id%}">{{product.name}}</a>
+                                        <div class="ratting">
+{% with ''|center:product.get_average_rating as range %}
+{% for _ in range %}
+    <i class="fa fa-star"></i>
+{% endfor %}
+{% endwith %}
+                                        </div>
+                                    </div>
+                                    <div class="product-image">
+                                        <a href="{%url 'App1:product_details' product.id%}">
+                                            <img src="{{product.picture.url}}" alt="Product Image" height=300px>
+                                        </a>
+                                        <div class="product-action">
+                                            <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                            {% if  request.user.is_authenticated %}
+                                            <div>
+                                            <a href="{%url 'App1:favourite_add' product.id%}"><i class="fa fa-heart"></i></a>
+                                            </div>
+                                            
+                                            {% else %}
+                                            <div>
+                                            <a href="{%url 'App1:register'%}"><i class="fa fa-heart"></i></a>
+                                            
+                                            </div>
+                                            {% endif %}
+                                            <a href="{%url 'App1:product_details' product.id%}"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-price">
+                                        <h3><span>{{product.currency}}</span>{{product.price}}</h3>
+                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            </div>
+                            </div>
+                            </div>
+
+
+                            {% endblock body_block %}

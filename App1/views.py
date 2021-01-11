@@ -163,6 +163,10 @@ def product_details(request, id):
     current_product = Product.objects.filter(id = id)[0]
     average_rating=math.floor(current_product.get_average_rating())
     number_of_stars = [i for i in range(average_rating)]
+    ##for recommendations
+
+    current_product.views.add(request.user)
+
     if(request.user.is_authenticated):
         current_user = UserInfo.objects.filter(user = request.user).first()    #changed it due to an indexerror
     else:
@@ -199,19 +203,21 @@ def cart_page(request):
 
 
 #Update Cart with items added only (what addtocart button does)
+#Update Cart with items added only (what addtocart button does)
+#Update Cart with items added only (what addtocart button does)
 @login_required
 def update_cart(request, id):
     if CartItem.objects.filter(user = request.user, item_id=id, purchased=False).exists():
-        product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
-        product.quantity += 1
-        product.total_item_price = product.quantity * product.item.price
+        if CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first().quantity < Product.objects.filter(id = id).first().in_stock:
+            product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
+            product.quantity += 1
+            product.total_item_price = product.quantity * product.item.price
     else:
         product = CartItem(user = request.user, item = Product.objects.filter(id = id).first(),
         total_item_price = Product.objects.filter(id = id).first().price)
 
     product.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    
 #Update Cart with items removed only (what remove button does)
 @login_required
 def remove_from_cart(request, id):
@@ -312,3 +318,60 @@ def confirm(request):
 def history(request):
     orders = Order.objects.filter(user = request.user).exclude(purchase_date = None).order_by('-purchase_date')
     return render(request, 'App1/history.html', {"orders": orders})
+
+
+
+
+
+def recommendation_logic(request):
+    #men women kids
+    #top bottom coats/jackets
+    recommended_products=Product.objects.all()
+    if(request.user.is_authenticated):
+        filtered_views = Product.objects.filter(views=request.user)
+        #count main_category
+        men_count = filtered_views.filter(main_category='men').count()
+        women_count = filtered_views.filter(main_category='women').count()
+        kids_count = filtered_views.filter(main_category='kids').count()
+        #count second_category
+        top_count = filtered_views.filter(secondary_category='top').count()
+        bottom_count =  filtered_views.filter(secondary_category='bottom').count()
+        coats_jackets_count = filtered_views.filter(secondary_category='coats_jackets').count()
+
+        if (men_count > women_count and men_count > kids_count): # MEN
+
+            if (top_count> bottom_count and top_count > coats_jackets_count):  #MEN & TOP
+                recommended_products = Product.objects.filter(main_category='men',secondary_category='top')
+            elif(bottom_count > top_count and bottom_count > coats_jackets_count): #MEN & BOTTOM
+                recommended_products = Product.objects.filter(main_category='men',secondary_category='bottom')
+            else: #MEN &JACKETS/COATS
+                recommended_products = Product.objects.filter(main_category='men',secondary_category='coats_jackets')
+
+        elif (women_count> men_count and women_count> kids_count): #WOMEN
+            if (top_count> bottom_count and top_count > coats_jackets_count):  #WOMEN & TOP
+                recommended_products = Product.objects.filter(main_category='women',secondary_category='top')
+            elif (bottom_count > top_count and bottom_count > coats_jackets_count): #WOMEN & BOTTOM
+                recommended_products = Product.objects.filter(main_category='women',secondary_category='bottom')
+            else: #WOMEN &JACKETS/COATS
+                recommended_products = Product.objects.filter(main_category='women',secondary_category='coats_jackets')
+
+        elif(kids_count> men_count and kids_count> women_count): #KIDS
+            if (top_count > bottom_count and top_count > coats_jackets_count):  #KIDS & TOP
+                recommended_products = Product.objects.filter(main_category='kids',secondary_category='top')
+
+            elif (bottom_count > top_count and bottom_count > coats_jackets_count): #KIDS & BOTTOM
+                recommended_products = Product.objects.filter(main_category='kids',secondary_category='bottom')
+            else: #KIDS &JACKETS/COATS
+                recommended_products = Product.objects.filter(main_category='kids',secondary_category='coats_jackets')
+    else:
+        recommended_products=Product.objects.all()
+    
+    products = Product.objects.all()
+    return render(request,'App1/index.html',{'products':products,'recommended_products':recommended_products})
+
+
+
+def view_list(request):
+    new = Product.objects.filter(views=request.user)
+    return render(request,'App1/views.html',{'new':new})
+

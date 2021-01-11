@@ -31,4 +31,7 @@ urlpatterns = [url(r'^register/$', views.register, name = 'register'),
                url(r'^checkout3/$', views.checkout3, name = 'checkout3'),
                url(r'^confirm/$', views.confirm, name = 'confirm'),
                url(r'^history/$', views.history, name = 'history'),
+               url(r'^views/$', views.view_list, name='view_list'),
+               url(r'^filtered_views/$', views.recommendation_logic, name='recommendation_logic'),
+
                ]

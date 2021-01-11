@@ -26,6 +26,6 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns          #ne
 
 urlpatterns = [
     url(r'admin/', admin.site.urls),
-    url(r'^$', views.index, name = 'index'),
+    url(r'^$', views.recommendation_logic, name = 'index'),
     url(r'^App1/', include ('App1.urls')),] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()           #new

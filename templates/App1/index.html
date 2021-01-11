@@ -311,7 +311,7 @@
 
                             <div class="sidebar-slider normal-slider">
                              {% if products%}
-                             {% for product in products %}
+                             {% for product in recommended_products %}
                                 <div class="product-item">
                                     <div class="product-title">
                                         <a href="{%url 'App1:product_details' product.id%}" >{{product.name}}</a>

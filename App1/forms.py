@@ -33,7 +33,7 @@ class ProductForm (forms.ModelForm):
     details = forms.CharField(widget=forms.Textarea)
     class Meta ():
         model = Product
-        exclude = ['seller']
+        exclude = ['seller','favourites','views']
 
 
 currency_choices = (('$','$'),('€','€'),('L.E','L.E'))
