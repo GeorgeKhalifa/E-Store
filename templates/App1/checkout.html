@@ -1,0 +1,22 @@
+{% extends 'App1/base.html'%}
+{% block head_block %}
+<title> Checkout </title>
+{% endblock %}
+
+{% block body_block %}
+
+<div class = "jumbotron">
+  <h1> Fill in the checkout form please </h1>
+  
+  <form method = "POST">
+    {% csrf_token %}
+    <h4>Total Cost: {{ total_cost }}$</h4 >
+    <h4>Your discount points: {{ points }}</h4>
+    <br>
+    {{ checkout_form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Continue</button>
+    </form>
+</div>
+
+{% endblock %}

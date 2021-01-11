@@ -1,0 +1,30 @@
+{% extends 'App1/base.html'%}
+{% block head_block %}
+<title> Continue Checkout </title>
+<meta http-equiv="refresh" content="0; url=http://www.google.com">
+{% endblock %}
+
+{% block body_block %}
+<form method="post">
+    <div class="jumbotron">
+        <h1> Fill in the checkout form please </h1>
+        <div class="form-group form-check">
+            <label for="ccn" >Credit Card Number:</label>
+            <input type="tel" id="ccn" inputmode="numeric" name="cnn" pattern="[0-9\s]{13,19}" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" required=True>
+            <br>
+            <label for="exp_date1">Expiration Date:</label>
+            <input type="number" id="exp_date1" min="1" max="12" placeholder="MM" required>  
+            <label for="exp_date2">/</label>
+            <input type="number" id="exp_date2" min="2020" max="2050" placeholder="YY" required>
+            <br>
+            <label for="code">CVV:</label>
+            <input type="tel" id="code" inputmode="numeric" maxlength="3" placeholder="Code" required>
+            </div>
+            <br>
+        
+            <h4>Total Cost: {{ new_total_cost }}{{ currency }}</h4>
+            <br>
+            <a class="btn btn-primary" href="{% url 'App1:confirm' %}">Proceed</a>
+    </div>
+</form>
+{% endblock %}

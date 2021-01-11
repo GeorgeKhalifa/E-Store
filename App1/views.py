@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.urls import reverse
-from App1.forms import UserInfoForm, UserForm, ProductForm
-from App1.models import UserInfo, Product, ProductReview, CartItem
+from App1.forms import UserInfoForm, UserForm, ProductForm, OrderForm
+from App1.models import UserInfo, Product, ProductReview, CartItem, Order
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 import math
-
+from decimal import Decimal
+import datetime
 
 # Create your views here.
 #Return Homepage of the products
@@ -207,7 +207,7 @@ def update_cart(request, id):
         product.total_item_price = product.quantity * product.item.price
     else:
         product = CartItem(user = request.user, item = Product.objects.filter(id = id).first(),
-        total_item_price = Product.objects.filter(id = id).first().price )
+        total_item_price = Product.objects.filter(id = id).first().price)
 
     product.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
@@ -219,3 +219,96 @@ def remove_from_cart(request, id):
     item_to_be_removed = CartItem.objects.filter(user = request.user, id = id, purchased = False).first()
     item_to_be_removed.delete()
     return render(request, 'App1/cart_page.html', {"cart":cart})
+
+
+@login_required
+def checkout(request):
+    checkout_form = OrderForm()
+    user_info = UserInfo.objects.filter(user = request.user)[0]
+    products = CartItem.objects.filter(user = request.user, purchased=False)
+    total_cost = 0
+    new_total_cost = 0
+    points = user_info.get_offer_points()
+
+    for product in products:
+        if (product.item.currency == 'L.E'):
+            product.total_item_price /= 15.7
+        elif (product.item.currency == '€'):
+            product.total_item_price /= 0.82
+        total_cost += product.total_item_price
+
+    if request.method == 'POST':
+        checkout_form = OrderForm(request.POST)
+        if checkout_form.is_valid():
+            order = checkout_form.save(commit = False)
+            currency = request.POST.get("currency")
+            payment_method = request.POST.get("payment_method")
+            discount_points = request.POST.get('discount_points')
+            order.currency = currency
+            order.method_of_payment = payment_method
+
+            if (discount_points == 'yes'):
+                if (points == 0):
+                    new_total_cost = total_cost
+                else:
+                    new_total_cost = total_cost*((100-points)/100)
+                    points = 0
+            elif (discount_points == 'no'):
+                new_total_cost = total_cost
+                points = points+int(total_cost/10)
+
+            user_info.set_offer_points(points)
+            user_info.save()
+
+            if (currency == 'L.E'):
+                new_total_cost *= 15.7
+            elif (currency == '€'):
+                new_total_cost *= 0.82
+
+            order.total_cost = total_cost
+            order.new_total_cost = new_total_cost
+            order.user = request.user
+            order.save()
+            
+
+            if (payment_method == 'credit'):
+                return render(request, 'App1/checkout2.html', {'new_total_cost': new_total_cost, 'currency': currency})
+            elif (payment_method == 'cod'):
+                return render(request, 'App1/checkout3.html', {'new_total_cost': new_total_cost, 'currency': currency})
+
+        else:
+            return render(request, 'App1/checkout.html', {'checkout_form': checkout_form, 'total_cost': total_cost, 'points': points})
+    else:
+        return render(request, 'App1/checkout.html', {'checkout_form': checkout_form, 'total_cost': total_cost, 'points': points})
+
+#Go to Credit card info view
+@login_required
+def checkout2(request):
+    return confirm(request)
+
+#Go to Paying by cash view
+@login_required
+def checkout3(request):
+    return confirm(request)
+    
+#Confirm payment view
+@login_required
+def confirm(request):
+    order = Order.objects.filter(user = request.user).last()
+    items = CartItem.objects.filter(user = request.user, purchased=False)
+    for product in items:
+        product.purchased = True
+        product.item.in_stock = product.item.in_stock-product.quantity
+        product.in_order = order
+        product.save()
+        Product.objects.filter(id = product.item.id).update(in_stock = product.item.in_stock)
+        Product.objects.filter(id = product.item.id).first().save()
+    order.purchase_date = datetime.datetime.now()
+    order.save()
+    return render(request, 'App1/confirm_payment.html')
+
+#view previously purchased products
+@login_required
+def history(request):
+    orders = Order.objects.filter(user = request.user).exclude(purchase_date = None).order_by('-purchase_date')
+    return render(request, 'App1/history.html', {"orders": orders})
