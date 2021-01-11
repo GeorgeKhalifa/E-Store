@@ -10,15 +10,15 @@
         <h1> Fill in the checkout form please </h1>
         <div class="form-group form-check">
             <label for="ccn" >Credit Card Number:</label>
-            <input type="tel" id="ccn" inputmode="numeric" name="cnn" pattern="[0-9\s]{13,19}" maxlength="19" placeholder="xxxx xxxx xxxx xxxx">
+            <input type="tel" id="ccn" inputmode="numeric" name="cnn" pattern="[0-9\s]{13,19}" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" required=True>
             <br>
             <label for="exp_date1">Expiration Date:</label>
-            <input type="number" id="exp_date1" min="1" max="12" placeholder="MM">  
+            <input type="number" id="exp_date1" min="1" max="12" placeholder="MM" required>  
             <label for="exp_date2">/</label>
-            <input type="number" id="exp_date2" min="2020" max="2050" placeholder="YY">
+            <input type="number" id="exp_date2" min="2020" max="2050" placeholder="YY" required>
             <br>
             <label for="code">CVV:</label>
-            <input type="tel" id="code" inputmode="numeric" maxlength="3" placeholder="Code">
+            <input type="tel" id="code" inputmode="numeric" maxlength="3" placeholder="Code" required>
             </div>
             <br>
         

@@ -245,7 +245,7 @@ def checkout(request):
             payment_method = request.POST.get("payment_method")
             discount_points = request.POST.get('discount_points')
             order.currency = currency
-            order. method_of_payment = payment_method
+            order.method_of_payment = payment_method
 
             if (discount_points == 'yes'):
                 if (points == 0):
