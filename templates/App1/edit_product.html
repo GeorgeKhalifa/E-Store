@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit</title>
+</head>
+<body>
+    <h1>Edit the product details</h1>
+    <form action="{%url 'App1:update_product' editupdate.id %}" method="POST" >
+    
+      {% csrf_token %}
+   
+    <table border="1">
+     <tr>
+     <td>Product ID</td>
+     <td><input type="text" name="id" value="{{editupdate.id}}" readonly></td>
+     </tr>
+
+     <tr>
+     <td>Name</td>
+     <td><input type="text" name="name" value="{{editupdate.name}}"></td>
+     </tr>
+    
+    <tr>
+    <td>In stock</td>
+    <td><input type="text" name="in_stock" value="{{editupdate.in_stock}}"></td>
+    </tr>
+
+    
+    <tr>
+    <td>Price</td>
+    <td><input type="text" name="price" value="{{editupdate.price}}"></td>
+    </tr>
+
+
+     <tr>
+    <td>Details</td>
+    <!--<td><input type="text" name="details" value="{{editupdate.details}}"></td>-->
+    <td> <textarea name="details"  cols="20" rows="10">{{editupdate.details}}</textarea></td>
+    </tr>
+
+      
+
+
+
+    </table>
+    
+    <input type="submit" value="Update"/> | <a href="{%url 'App1:product_status' %}">Back to the previous page</a>
+    
+   <!-- {% if messages %}
+    {% for updaterecord in messages %}
+    <h3 style="color: green;">{{updaterecord}}</h3>
+    {%endfor%}
+    {%endif%}-->
+
+     </form>
+    
+</body>
+</html>
+
+

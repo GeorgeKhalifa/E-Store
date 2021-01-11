@@ -35,6 +35,11 @@ class ProductForm (forms.ModelForm):
         model = Product
         exclude = ['seller','favourites','views']
 
+class StatusForm (forms.ModelForm):
+    class Meta ():
+        model = Product
+        fields = ('id','name','in_stock','price','details')
+
 
 currency_choices = (('$','$'),('€','€'),('L.E','L.E'))
 payment_choices = (('cod','COD(Cash on delivery)'),('credit','Credit Card'))

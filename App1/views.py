@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.urls import reverse
-from App1.forms import UserInfoForm, UserForm, ProductForm, OrderForm
+from App1.forms import UserInfoForm, UserForm, ProductForm, OrderForm,StatusForm
 from App1.models import UserInfo, Product, ProductReview, CartItem, Order
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -376,4 +376,37 @@ def recommendation_logic(request):
 def view_list(request):
     new = Product.objects.filter(views=request.user)
     return render(request,'App1/views.html',{'new':new})
+
+
+@login_required   
+def product_status(request):
+    Products=Product.objects.filter(seller=request.user)
+    return render(request,'App1/product_status.html',{'editupdate':Products})
+
+@login_required  
+def edit_product(request,id):
+    displayprod=Product.objects.get(id=id)
+    return render(request,'App1/edit_product.html',{'editupdate':displayprod})
+
+
+@login_required  
+def update_product(request,id):
+    updateprod=Product.objects.get(id=id)
+    product_form=StatusForm(request.POST,instance=updateprod)
+    if product_form.is_valid():
+        product_form.save()
+        #messages.success(request,"Product updated successfully!")
+        return redirect ('App1:product_status')
+        #return render(request, 'App1/edit_product.html', {'editupdate':updateprod})
+   
+
+    return render(request, 'App1/edit_product.html', {'editupdate':updateprod})
+
+@login_required
+def remove_product(request, id):
+    Removed_Product= Product.objects.get(id=id)
+    Removed_Product.delete()
+    return redirect ("App1:product_status")
+    #return render(request, 'App1/product_status.html', context)
+
 

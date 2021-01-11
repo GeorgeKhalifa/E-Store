@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status</title>
+    <link href="{% static "css/styling.css" %}" rel="stylesheet">
+</head>
+<body>
+    <h1>Hello! Here are your products</h1>
+
+    <div class="here">
+    
+    <table>
+    <thead>
+    <th>Product ID</th>
+    <th>Name</th>
+    <th>No in stock</th>
+    <th>Currency</th>
+    <th>Size</th>
+    <th>Price</th>
+    <th>Main Category</th>
+    <th>Secondary Category</th>
+    <th>Details</th>
+    <th>Picture</th>
+    <th>Update</th>
+    <th>Remove</th>
+    
+    </thead>
+    
+
+                                            
+    {%for item in editupdate%}
+    <tr>
+    <td>{{item.id}}</td>
+    <td>{{item.name}}</td>
+    <td>{{item.in_stock}}</td>
+    <td>{{item.currency}}</td>
+    <td>{{item.size}}</td>
+    <td>{{item.price}}</td>
+    <td>{{item.main_category}}</td>
+    <td>{{item.secondary_category}}</td>
+    <td>{{item.details}}</td>
+    <td><img src="{{item.picture.url}}" ></td>
+    <td>
+    <a href="{%url 'App1:edit_product' item.id %}" > Edit</a>
+    </td>
+    <td><a class=" btn btn-sm btn-danger" href="{% url 'App1:remove_product' item.id%}" >Delete </a></td>
+    </tr>
+    {%endfor%}
+</table>
+
+
+
+
+
+
+    </div>
+
+
+</body>
+</html>
