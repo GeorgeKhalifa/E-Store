@@ -212,11 +212,13 @@ def update_cart(request, id):
             product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
             product.quantity += 1
             product.total_item_price = product.quantity * product.item.price
+            product.save()
     else:
         product = CartItem(user = request.user, item = Product.objects.filter(id = id).first(),
         total_item_price = Product.objects.filter(id = id).first().price)
+        product.save()
+    
 
-    product.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 #Update Cart with items removed only (what remove button does)
 @login_required
