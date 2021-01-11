@@ -30,4 +30,5 @@ urlpatterns = [url(r'^register/$', views.register, name = 'register'),
                url(r'^checkout2/$', views.checkout2, name = 'checkout2'),
                url(r'^checkout3/$', views.checkout3, name = 'checkout3'),
                url(r'^confirm/$', views.confirm, name = 'confirm'),
+               url(r'^history/$', views.history, name = 'history'),
                ]

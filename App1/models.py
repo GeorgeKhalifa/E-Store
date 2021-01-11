@@ -56,17 +56,6 @@ class ProductReview(models.Model):
     def get_rating (self):
         return self.rating
 
-
-class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    item = models.ForeignKey(Product, on_delete = models.CASCADE) 
-    quantity = models.PositiveIntegerField(default = 1) #still needed to be less than item.in_stock
-    total_item_price = models.FloatField(max_length=6, default = 100.00) #still needed to be default the item price & quantity*item.price
-    purchased = models.BooleanField(default = False)
-    #we need to implement a view to add a cartitem and/or increase its quantity
-    #we need to implement a view to remove a cartitem to be accessed from cart_page.html
-    #we need to implement a view to calculate the total_item_price 
-
 payment_choices = (('cod','COD(Cash on delivery)'),('credit','Credit Card'))
 class Order (models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE, default=None, null=True)
@@ -78,4 +67,17 @@ class Order (models.Model):
     total_cost = models.FloatField(default=0.00, max_length=6)
     new_total_cost = models.FloatField(max_length=10, default=0.00)
     discount_points = models.CharField(max_length=4)
-    purchase_date = models.DateTimeField(auto_now_add=True)
+    purchase_date = models.DateTimeField(default = None, null = True, blank = True)
+
+
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    item = models.ForeignKey(Product, on_delete = models.CASCADE) 
+    quantity = models.PositiveIntegerField(default = 1) #still needed to be less than item.in_stock
+    total_item_price = models.FloatField(max_length=6, default = 100.00) #still needed to be default the item price & quantity*item.price
+    purchased = models.BooleanField(default = False)
+    in_order = models.ForeignKey(Order, on_delete = models.SET_NULL, null=True)
+    #we need to implement a view to add a cartitem and/or increase its quantity
+    #we need to implement a view to remove a cartitem to be accessed from cart_page.html
+    #we need to implement a view to calculate the total_item_price 
+
