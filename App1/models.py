@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)         # Means if the user is deleted, the corresponding user info is also deleted
 
-    BuyerOrSeller = models.CharField(max_length = 30)
+    BuyerOrSeller = models.CharField(max_length = 31)
     offer_points = models.PositiveIntegerField(default=10, blank=True)
     def set_offer_points(self, new_points):
         self.offer_points = new_points

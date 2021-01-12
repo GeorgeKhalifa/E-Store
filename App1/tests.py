@@ -147,6 +147,8 @@ class SimpleTest(TestCase):
         self.client=Client()
         self.factory=RequestFactory()
         self.user=User.objects.create_user(first_name='jacob',last_name='messi',email='jacob@test.com',username='leo',password='1234')
+        self.user_info= UserInfo.objects.create(user = self.user, BuyerOrSeller='buyer')
+
 
     def test_index(self):
         request=self.factory.get('App1/index')
@@ -210,18 +212,22 @@ class SimpleTest(TestCase):
 
     def test_register(self):
         request=self.factory.get('App1/register')
-        request.user=AnonymousUser
+        request.user=self.user
         response=register(request)
 
     def test_user_login(self):
         request=self.factory.get('App1/user_login')
-        request.user=AnonymousUser
+        request.user=self.user
         response=user_login(request)
 
     def test_user_logout(self):
        self.client.login(username='leo',password='1234')
        response=self.client.get(reverse('index'))
        self.assertEqual(response.status_code, 200)
+    
+
+
+
     
     def test_add_product(self):
         request=self.factory.get('App1/add_product')
