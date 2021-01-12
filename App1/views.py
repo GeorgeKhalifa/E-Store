@@ -264,16 +264,18 @@ class Controller():
         total_number=0
         for product in cart:
             if(product.item.currency == 'L.E'):
-                product.total_item_price /=15.7
+                total_item_price = product.total_item_price / 15.7
             elif (product.item.currency == '€'):
-                product.total_item_price /=0.82
+                total_item_price = product.total_item_price / 0.82
+            else:
+                total_item_price = product.total_item_price
             if (product.item.in_stock < product.quantity):
                 product.quantity = product.item.in_stock
                 if(product.item.in_stock == 0):
                     product.delete()
                 else:
                     product.save()
-            total_cost += product.total_item_price
+            total_cost += total_item_price
             total_number += product.quantity
 
         return render(request, 'App1/cart_page.html', {"cart":cart,"total_cost":round(total_cost,2),"total_number":total_number})
@@ -326,10 +328,14 @@ class Controller():
 
         for product in products:
             if (product.item.currency == 'L.E'):
-                product.total_item_price /= 15.7
+                total_item_price = product.total_item_price / 15.7
+
             elif (product.item.currency == '€'):
-                product.total_item_price /= 0.82
-            total_cost += product.total_item_price
+                total_item_price = product.total_item_price / 0.82
+            else:
+                total_item_price = product.total_item_price
+
+            total_cost += total_item_price
 
         if request.method == 'POST':
             checkout_form = OrderForm(request.POST)

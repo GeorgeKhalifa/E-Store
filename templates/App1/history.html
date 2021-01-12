@@ -29,7 +29,8 @@
                                          <p><a href="{%url 'App1:product_details' item.item.id%}">{{item.item.name}}</a></p>
                                      </div>
                                      </td>
-                              <td>{{ item.quantity }}</td><td>${{ item.total_item_price }}</td></tr>
+                                     <td>{{item.item.currency}}{{item.item.price}}</td>
+                              <td>{{ item.quantity }}</td> <td>{{item.item.currency}}{{ item.total_item_price }}</td></tr>
 
                                  {% endfor %}
                              <tr><td rowspan="2" style="background: #FF6F61"></td><td rowspan="2" style="background: #FF6F61"></td><td rowspan="2" style="background: #FF6F61"></td><td rowspan="2" style="background: #FF6F61"></td><td style="background:green; color:white;">Sub-Total: ${{order.total_cost}}</td></tr>

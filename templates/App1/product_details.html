@@ -19,7 +19,7 @@
                                             {%for i in number_of_stars %}
                                             <i class="fa fa-star"></i>
                                              {% endfor %}
-                                             {% if not product.get_average_rating %}
+                                             {% if not current_product.get_average_rating %}
                                              <i class="far fa-star"></i>
                                              <i class="far fa-star"></i>
                                              <i class="far fa-star"></i>
@@ -82,14 +82,6 @@
                                                <i class="fa fa-star"></i>
                                              {% endfor %}
                                             {% endwith %}
-                                            {% if not product.get_average_rating %}
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-                                            <i class="far fa-star"></i>
-
-                                            {% endif %}
                                                 {{product_review.rating}}
                                             </div>
                                             <p>{{product_review.review_content}}

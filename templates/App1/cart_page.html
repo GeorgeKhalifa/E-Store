@@ -51,15 +51,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="coupon">
-                                        <input type="text" placeholder="Coupon Code">
-                                        <button>Apply Code</button>
+
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="cart-summary">
                                         <div class="cart-content">
                                             <h1>Cart Summary</h1>
-                                            <h2>Total<span>{{total_cost}}</span></h2>
+                                            <h2>Total<span>${{total_cost}}</span></h2>
                                         </div>
                                         <div class="cart-btn">
                                            <a href="{% url 'App1:checkout'%}"><button>Checkout</button></a>
