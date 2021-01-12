@@ -97,7 +97,7 @@
                                         </div> {% endcomment %}
                                         <div class="action">
                                             <a class="btn" href="{%url "App1:update_cart" current_product.id %}"><i class="fa fa-shopping-cart"></i>Add to Cart</a>
-                                            <a class="btn" href=""><i class="fa fa-shopping-bag"></i>Buy Now</a>
+                                            {% comment %} <a class="btn" href=""><i class="fa fa-shopping-bag"></i>Buy Now</a> {% endcomment %}
                                         </div>
                                     </div>
                                 </div>
@@ -401,7 +401,7 @@
                                     </div>
                                     <div class="product-price">
                                         <h3><span>{{product.currency}}</span>{{product.price}}</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                        {% comment %} <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a> {% endcomment %}
                                     </div>
                                 </div>
                                 {% endfor %}

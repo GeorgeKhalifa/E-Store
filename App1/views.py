@@ -305,11 +305,11 @@ def update_cart(request, id):
 @login_required
 def update_cart2(request, id):
     if CartItem.objects.filter(user = request.user, item_id=id, purchased=False).exists():
-        if CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first().quantity > Product.objects.filter(id = id).first().in_stock:
-            product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
-            product.quantity -= 1
-            product.total_item_price = product.quantity * product.item.price
-            product.save()
+        # if CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first().quantity > Product.objects.filter(id = id).first().in_stock:
+        product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
+        product.quantity -= 1
+        product.total_item_price = product.quantity * product.item.price
+        product.save()
     else:
         product = CartItem(user = request.user, item = Product.objects.filter(id = id).first(),
         total_item_price = Product.objects.filter(id = id).first().price )

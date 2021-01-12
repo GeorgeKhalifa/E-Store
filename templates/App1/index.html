@@ -64,7 +64,7 @@
                             <a href="{%url 'App1:register'%}" class="nav-item nav-link">Cart</a>
                             {% endif %}
                             <a href="{% url 'App1:checkout'%}" class="nav-item nav-link">Checkout</a>
-                            <a href="{% url 'App1:product_status'%}" class="nav-item nav-link">My Account</a>
+                            <a href="{% url 'App1:product_status'%}" class="nav-item nav-link">Seller Dashboard</a>
                             <a href="{% url 'App1:add_product'%}" class="nav-item nav-link">Add Products</a>
                             <a href="{% url 'App1:history'%}" class="nav-item nav-link">History</a>
                             <div class="nav-item dropdown">
@@ -242,7 +242,7 @@
                                     </div>
                                     <div class="product-price">
                                         <h3><span>{{product.currency}}</span>{{product.price}}</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy</a>
+                                        {% comment %} <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy</a> {% endcomment %}
                                     </div>
                                 </div>
                             </div>
@@ -340,7 +340,7 @@
                                     </div>
                                     <div class="product-price">
                                         <h3><span>{{product.currency}}</span>{{product.price}}</h3>
-                                        <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                        {% comment %} <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a> {% endcomment %}
                                     </div>
                                 </div>
                                 {% endfor %}
