@@ -25,15 +25,15 @@
                                         </a>
                                         <div class="product-action">
                                             <a href="#"><i class="fa fa-cart-plus"></i></a>
-                                            {% if  request.user.is_authenticated %}
+                                            {% if  request.user.is_authenticated and not sellerflag %}
                                             <div>
                                             <a href="{%url 'App1:favourite_add' product.id%}"><i class="fa fa-heart"></i></a>
                                             </div>
-                                            
+
                                             {% else %}
                                             <div>
                                             <a href="{%url 'App1:register'%}"><i class="fa fa-heart"></i></a>
-                                            
+
                                             </div>
                                             {% endif %}
                                             <a href="{%url 'App1:product_details' product.id%}"><i class="fa fa-search"></i></a>

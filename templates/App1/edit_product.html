@@ -5,9 +5,9 @@
 {% block body_block %}
     <h1 style="text-align:center">Edit the product details</h1>
     <form action="{%url 'App1:update_product' editupdate.id %}" method="POST" >
-    
+
       {% csrf_token %}
-   
+
     <div class="wishlist-page">
             <div class="container-fluid">
                 <div class="wishlist-page-inner">
@@ -46,13 +46,3 @@
             </div>
         </div>
 {% endblock %}
-    
-    
-   <!-- {% if messages %}
-    {% for updaterecord in messages %}
-    <h3 style="color: green;">{{updaterecord}}</h3>
-    {%endfor%}
-    {%endif%}-->
-
-
-

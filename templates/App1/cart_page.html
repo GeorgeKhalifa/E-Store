@@ -2,7 +2,7 @@
 <title> Cart </title>
 
 {% block body_block %}
-        
+
         <!-- Cart Start -->
         <div class="cart-page">
             <div class="container-fluid">
@@ -59,12 +59,9 @@
                                     <div class="cart-summary">
                                         <div class="cart-content">
                                             <h1>Cart Summary</h1>
-                                            {% comment %} <p>Sub Total<span>${{total_cost}}</span></p> {% endcomment %}
-                                            {% comment %} <p>Shipping Cost<span>$1</span></p> {% endcomment %}
                                             <h2>Total<span>{{total_cost}}</span></h2>
                                         </div>
                                         <div class="cart-btn">
-                                            {% comment %} <button>Update Cart</button> {% endcomment %}
                                            <a href="{% url 'App1:checkout'%}"><button>Checkout</button></a>
                                         </div>
                                     </div>

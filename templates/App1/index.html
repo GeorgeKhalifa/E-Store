@@ -56,38 +56,36 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto">
                             <a href="{% url 'index' %}" class="nav-item nav-link">Home</a>
-                            {% comment %} <a href="{% url 'product_app:product_list' %}" class="nav-item nav-link active">Products</a>
-                            <a href="{% url 'product_app:form' %}" class="nav-item nav-link">fill form</a> {% endcomment %}
-                            {% if  request.user.is_authenticated %}
+                            {% if  request.user.is_authenticated and not sellerflag %}
                             <a href="{% url 'App1:cart'%}" class="nav-item nav-link">Cart</a>
-                            {% else %}
-                            <a href="{%url 'App1:register'%}" class="nav-item nav-link">Cart</a>
+                            <a href="{% url 'App1:history'%}" class="nav-item nav-link">History</a>
                             {% endif %}
-                            <a href="{% url 'App1:checkout'%}" class="nav-item nav-link">Checkout</a>
+
+                            {% if  request.user.is_authenticated and sellerflag %}
                             <a href="{% url 'App1:product_status'%}" class="nav-item nav-link">Seller Dashboard</a>
                             <a href="{% url 'App1:add_product'%}" class="nav-item nav-link">Add Products</a>
-                            <a href="{% url 'App1:history'%}" class="nav-item nav-link">History</a>
+                            {% endif %}
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                                 <div class="dropdown-menu">
-                                {% if  request.user.is_authenticated %}
+                                {% if  request.user.is_authenticated and not sellerflag %}
                                             <div>
-                                    <a href="{% url 'App1:favourite_list'%}" class="dropdown-item">Favourite List</a>                                           
+                                    <a href="{% url 'App1:favourite_list'%}" class="dropdown-item">Favourite List</a>
                                             </div>
-                                            {% else %}
-                                            <div>
-                                            <a href="{%url 'App1:register'%}" class="dropdown-item">Favourite List</a>
-                                            </div>
-                                            {% endif %}
+                                {% endif %}
 
-                                    <a href="{% url 'App1:register'%}" class="dropdown-item">Login & Register</a>
+                                    <a href="{% url 'App1:register'%}" class="dropdown-item">Register</a>
                                     <a href="{% url 'App1:contact'%}" class="dropdown-item">Contact Us</a>
                                 </div>
                             </div>
                         </div>
                         <div class="navbar-nav ml-auto">
                             <div class="nav-item dropdown">
+                                {% if user.is_authenticated %}
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{firstname}} {{lastname}}</a>
+                                {% else %}
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
+                                {% endif %}
                                 <div class="dropdown-menu">
                                     {% if user.is_authenticated %}
                                       <a href="{% url 'App1:user_logout'%}" class="dropdown-item">Log out</a>
@@ -126,7 +124,7 @@
                     <div class="col-md-3">
                         <div class="user">
 
-                      {% if  request.user.is_authenticated %}                     
+                      {% if  request.user.is_authenticated and not sellerflag %}
 
 
                             <a href="{% url 'App1:favourite_list'%}" class="btn wishlist">
@@ -179,37 +177,15 @@
                                                         <a href="{% url 'App1:index_sort_price' %}" class="dropdown-item">Price</a>
                                                         <a href="{% url 'App1:index_sort_newest' %}" class="dropdown-item">Newest</a>
                                                         <a href="{% url 'App1:index_sort_rating' %}" class="dropdown-item">Rating</a>
-                                                        {% comment %} <a href="#" class="dropdown-item">Popular</a>
-                                                        <a href="#" class="dropdown-item">Most sale</a> {% endcomment %}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        {% comment %} <div class="col-md-4">
-                                            <div class="product-price-range">
-                                                <div class="dropdown">
-                                                    <div class="dropdown-toggle" data-toggle="dropdown">Product price range</div>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="#" class="dropdown-item">$0 to $50</a>
-                                                        <a href="#" class="dropdown-item">$51 to $100</a>
-                                                        <a href="#" class="dropdown-item">$101 to $150</a>
-                                                        <a href="#" class="dropdown-item">$151 to $200</a>
-                                                        <a href="#" class="dropdown-item">$201 to $250</a>
-                                                        <a href="#" class="dropdown-item">$251 to $300</a>
-                                                        <a href="#" class="dropdown-item">$301 to $350</a>
-                                                        <a href="#" class="dropdown-item">$351 to $400</a>
-                                                        <a href="#" class="dropdown-item">$401 to $450</a>
-                                                        <a href="#" class="dropdown-item">$451 to $500</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> {% endcomment %}
+
                                     </div>
                                 </div>
                             </div>
                             {% if products%}
-                            {% comment %} <div class="container">
-                            <div class="row"> {% endcomment %}
                             {% for product in products %}
 
                             <div class="col-md-4">
@@ -223,6 +199,14 @@
                                             <i class="fa fa-star"></i>
                                           {% endfor %}
                                          {% endwith %}
+                                         {% if not product.get_average_rating %}
+                                         <i class="far fa-star"></i>
+                                         <i class="far fa-star"></i>
+                                         <i class="far fa-star"></i>
+                                         <i class="far fa-star"></i>
+                                         <i class="far fa-star"></i>
+
+                                         {% endif %}
                                         </div>
                                     </div>
                                     <div class="product-image">
@@ -230,7 +214,7 @@
                                             <img src="{{product.picture.url}}" alt="Product Image" height=300px>
                                         </a>
                                         <div class="product-action">
-                                            {% if  request.user.is_authenticated %}
+                                            {% if  request.user.is_authenticated and not sellerflag %}
                                             <a href="{%url "App1:update_cart" product.id %}"><i class="fa fa-cart-plus"></i></a>
                                             <a href="{%url 'App1:favourite_add' product.id%}"><i class="fa fa-heart"></i></a>
                                             {% else %}
@@ -242,7 +226,6 @@
                                     </div>
                                     <div class="product-price">
                                         <h3><span>{{product.currency}}</span>{{product.price}}</h3>
-                                        {% comment %} <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy</a> {% endcomment %}
                                     </div>
                                 </div>
                             </div>
@@ -251,22 +234,6 @@
                         </div>
 
 
-                        <!-- Pagination Start -->
-                        {% comment %} <div class="col-md-12">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                    </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div> {% endcomment %}
                         <!-- Pagination Start -->
                     </div>
 
@@ -317,6 +284,13 @@
                                          <i class="fa fa-star"></i>
                                          {% endfor %}
                                          {% endwith %}
+                                         {% if not product.get_average_rating %}
+                                         <i class="far fa-star"></i>
+                                         <i class="far fa-star"></i>
+                                         <i class="far fa-star"></i>
+                                         <i class="far fa-star"></i>
+                                         <i class="far fa-star"></i>
+                                         {% endif %}
                                         </div>
                                     </div>
                                     <div class="product-image">
@@ -325,13 +299,13 @@
                                         </a>
                                         <div class="product-action">
                                             <a href="{%url "App1:update_cart" product.id %}"><i class="fa fa-cart-plus"></i></a>
-                                             {% if  request.user.is_authenticated %}
-                                        
+                                             {% if  request.user.is_authenticated and not sellerflag %}
+
                                             <a href="{%url 'App1:favourite_add' product.id%}"><i class="fa fa-heart"></i></a>
-                                            
-                                            
+
+
                                             {% else %}
-                                            
+
                                             <a href="{%url 'App1:register'%}"><i class="fa fa-heart"></i></a>
 
                                             {% endif %}
@@ -340,7 +314,6 @@
                                     </div>
                                     <div class="product-price">
                                         <h3><span>{{product.currency}}</span>{{product.price}}</h3>
-                                        {% comment %} <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a> {% endcomment %}
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -372,7 +345,6 @@
                             <div class="contact-info">
                                 <p><i class="fa fa-map-marker"></i>Faculty of Engineering-Ain Shams University</p>
                                 <p><i class="fa fa-envelope"></i>Abdu Basha El-Abassya</p>
-                                {% comment %} <p><i class="fa fa-phone"></i>+123-456-7890</p> {% endcomment %}
                             </div>
                         </div>
                     </div>
@@ -388,28 +360,7 @@
                         </div>
                     </div>
 
-                    {% comment %} <div class="col-lg-6 col-md-6">
-                        <div class="footer-widget">
-                            <h2>Company Info</h2>
-                            <ul>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms & Condition</a></li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-6 col-md-6">
-                        <div class="footer-widget">
-                            <h2>Purchase Info</h2>
-                            <ul>
-                                <li><a href="#">Pyament Policy</a></li>
-                                <li><a href="#">Shipping Policy</a></li>
-                                <li><a href="#">Return Policy</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> {% endcomment %}
 
                 <div class="row payment align-items-center">
                     <div class="col-md-12">
@@ -419,12 +370,6 @@
                             <img src={% static 'img/cod.png' %} alt="Payment Method" height=30px width=30px />
                         </div>
                     </div>
-                    {% comment %} <div class="col-md-6">
-                        <div class="payment-security">
-                            <h2>Secured By:</h2>
-                            <img src="img/godaddy.svg" alt="Payment Security" />
-                            <img src="img/norton.svg" alt="Payment Security" />
-                            <img src="img/ssl.svg" alt="Payment Security" /> {% endcomment %}
                         </div>
                     </div>
                 </div>

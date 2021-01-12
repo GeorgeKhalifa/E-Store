@@ -4,25 +4,6 @@
 {% endblock %}
 {% block body_block %}
     <h1 style="text-align:center">Hello! Here are your products</h1>
-
-    {% comment %} <div class="here">
-    
-    <table>
-    <thead>
-    <th>Product ID</th>
-    <th>Name</th>
-    <th>No in stock</th>
-    <th>Currency</th>
-    <th>Size</th>
-    <th>Price</th>
-    <th>Main Category</th>
-    <th>Secondary Category</th>
-    <th>Details</th>
-    <th>Picture</th>
-    <th>Update</th>
-    <th>Remove</th>
-    
-    </thead> {% endcomment %}
     <div class="wishlist-page">
             <div class="container-fluid">
                 <div class="wishlist-page-inner">
@@ -45,9 +26,9 @@
                                             <th>Remove</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="align-middle"> 
+                                    <tbody class="align-middle">
 
-                                            
+
                                       {%for item in editupdate%}
                                       <tr>
                                       <td>{{item.id}}</td>
