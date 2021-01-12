@@ -81,9 +81,10 @@
                             {% comment %} <a href="{% url 'product_app:product_list' %}" class="nav-item nav-link active">Products</a>
                             <a href="{% url 'product_app:form' %}" class="nav-item nav-link">fill form</a> {% endcomment %}
                             <a href="{% url 'App1:cart'%}" class="nav-item nav-link">Cart</a>
-                            <a href="checkout.html" class="nav-item nav-link">Checkout</a>
-                            <a href="my-account.html" class="nav-item nav-link">My Account</a>
+                            <a href="{% url 'App1:checkout'%}" class="nav-item nav-link">Checkout</a>
+                            <a href="{% url 'App1:product_status'%}" class="nav-item nav-link">My Account</a>
                             <a href="{% url 'App1:add_product'%}" class="nav-item nav-link">Add Products</a>
+                            <a href="{% url 'App1:history'%}" class="nav-item nav-link">History</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More Pages</a>
                                 <div class="dropdown-menu">
@@ -97,7 +98,7 @@
                                             </div>
                                             {% endif %}
                                     <a href="{% url 'App1:register'%}" class="dropdown-item">Login & Register</a>
-                                    <a href="contact.html" class="dropdown-item">Contact Us</a>
+                                    <a href="{% url 'App1:contact'%}" class="dropdown-item">Contact Us</a>
                                 </div>
                             </div>
                         </div>
@@ -148,55 +149,44 @@
                                 <i class="fa fa-heart"></i>
                                 <span></span>
                             </a>
+                            <a href="{% url 'App1:cart'%}" class="btn cart">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>({{total_number}})</span>
+                            </a>
                             {% else %}
                              <a href="{% url 'App1:register'%}" class="btn wishlist">
                                 <i class="fa fa-heart"></i>
                                 <span></span>
                             </a>
-
-
-                            {% endif %}
-                            <a href="{% url 'App1:cart'%}" class="btn cart">
+                            <a href="{% url 'App1:register'%}" class="btn cart">
                                 <i class="fa fa-shopping-cart"></i>
-                                <span>(0)</span>
+                                <span></span>
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Bottom Bar End -->
-
-        <!-- Breadcrumb Start -->
-        <div class="breadcrumb-wrap">
-            <div class="container-fluid">
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Products</a></li>
-                    <li class="breadcrumb-item active">Product List</li>
-                </ul>
-            </div>
-        </div>
-        <!-- Breadcrumb End -->
     {% comment %} <div class="container"> {% endcomment %}
       {% block body_block %}
       {% endblock %}
-<!-- Footer Start -->
-        <div class="footer">
+ <div class="footer">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-6 col-md-6">
                         <div class="footer-widget">
                             <h2>Get in Touch</h2>
                             <div class="contact-info">
-                                <p><i class="fa fa-map-marker"></i>123 E Store, Los Angeles, USA</p>
-                                <p><i class="fa fa-envelope"></i>email@example.com</p>
-                                <p><i class="fa fa-phone"></i>+123-456-7890</p>
+                                <p><i class="fa fa-map-marker"></i>Faculty of Engineering-Ain Shams University</p>
+                                <p><i class="fa fa-envelope"></i>Abdu Basha El-Abassya</p>
+                                {% comment %} <p><i class="fa fa-phone"></i>+123-456-7890</p> {% endcomment %}
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-6 col-md-6">
                         <div class="footer-widget">
                             <h2>Follow Us</h2>
                             <div class="contact-info">
@@ -207,7 +197,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
+                    {% comment %} <div class="col-lg-6 col-md-6">
                         <div class="footer-widget">
                             <h2>Company Info</h2>
                             <ul>
@@ -218,7 +208,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-6 col-md-6">
                         <div class="footer-widget">
                             <h2>Purchase Info</h2>
                             <ul>
@@ -228,21 +218,22 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
 
                 <div class="row payment align-items-center">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="payment-method">
-                            <h2>We Accept:</h2>
-                            <img src="img/payment-method.png" alt="Payment Method" />
+                            <h2 style="text-align:center">We Accept:</h2>
+                            <img src={% static 'img/creditcard.png' %} alt="Payment Method" height=30px width=30px />
+                            <img src={% static 'img/cod.png' %} alt="Payment Method" height=30px width=30px />
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    {% comment %} <div class="col-md-6">
                         <div class="payment-security">
                             <h2>Secured By:</h2>
                             <img src="img/godaddy.svg" alt="Payment Security" />
                             <img src="img/norton.svg" alt="Payment Security" />
-                            <img src="img/ssl.svg" alt="Payment Security" />
+                            <img src="img/ssl.svg" alt="Payment Security" /> {% endcomment %}
                         </div>
                     </div>
                 </div>
@@ -256,6 +247,7 @@
                 <div class="row">
                     <div class="col-md-6">
                     </div>
+
                     <div class="col-md-6">
                     </div>
                 </div>

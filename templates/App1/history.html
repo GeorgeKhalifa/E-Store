@@ -1,0 +1,42 @@
+{% extends 'App1/base.html'%}
+<title> History </title>
+
+{% block body_block %}
+
+{% for order in orders %}
+<h2 style="text-align:center">{{ order.purchase_date }}</h2>
+<div class="wishlist-page">
+            <div class="container-fluid">
+                <div class="wishlist-page-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total Item Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                 {% for item in order.cartitem_set.all %}
+
+                              <tr><td><img src="{{item.item.picture.url}}" alt="Product Image" height=100px width=100px></a>{{ item.item.name }}</td><td>{{ item.item.price }}</td><td>{{ item.quantity }}</td><td>${{ item.total_item_price }}</td></tr>
+
+                                 {% endfor %}
+                             <tr><td rowspan="2" style="background: #FF6F61"></td><td rowspan="2" style="background: #FF6F61"></td><td rowspan="2" style="background: #FF6F61"></td><td rowspan="2" style="background: #FF6F61"></td><td style="background:green; color:white;">Sub-Total: ${{order.total_cost}}</td></tr>
+                             <tr><td style="background:green; color:white;">Total: {{order.currency}}{{order.new_total_cost}}</td></tr>
+                                  </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endfor %}
+
+{% endblock body_block %}

@@ -34,7 +34,7 @@
                                             </td>
                                             <td>{{product.currency}}{{product.price}}</td>
                                              {% if  request.user.is_authenticated %}
-                                            <td><button class="btn-cart">Add to Cart</button></td>
+                                            <td><a href="{%url "App1:update_cart" product.id %}"><button class="btn-cart">Add to Cart</button></a></td>
                                             <td> <a href="{%url 'App1:favourite_add' product.id%}"><button><i class="fa fa-trash"></i></button></a></td>
                                             {% endif %}
                                         </tr>

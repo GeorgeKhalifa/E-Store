@@ -1,0 +1,58 @@
+{% extends 'App1/base.html'%}
+{% block head_block %}
+<title>Edit</title>
+{% endblock %}
+{% block body_block %}
+    <h1 style="text-align:center">Edit the product details</h1>
+    <form action="{%url 'App1:update_product' editupdate.id %}" method="POST" >
+    
+      {% csrf_token %}
+   
+    <div class="wishlist-page">
+            <div class="container-fluid">
+                <div class="wishlist-page-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                     <tr>
+                                    <th>Product ID</th>
+                                    <th>Name</th>
+                                    <th>In stock</th>
+                                    <th>Price</th>
+                                    <th>Details</th>
+                                    <th>Confirm Update</th>
+                                    <th>Back to Previous Page</th>
+                                    </tr>
+                                    </thead>
+                                     <tbody class="align-middle">
+                                        <tr>
+                                        <td><input type="text" name="id" value="{{editupdate.id}}" readonly style="width:100px; border: 2px solid red; border-radius: 4px"></td>
+                                        <td><input type="text" name="name" value="{{editupdate.name}}" style="width:200px; border: 2px solid red; border-radius: 4px"></td>
+                                        <td><input type="text" name="in_stock" value="{{editupdate.in_stock}}" style="width:100px; border: 2px solid red; border-radius: 4px"></td>
+                                        <td><input type="text" name="price" value="{{editupdate.price}}" style="width:100px; border: 2px solid red; border-radius: 4px"></td>
+                                        <td> <textarea name="details"  cols="20" rows="10" style="border: 2px solid red; border-radius: 4px; background-color:black; color:white;">{{editupdate.details}}</textarea></td>
+                                        <td><input type="submit" value="Update" style=" width:100px; border: 2px solid; border-radius: 4px; background-color:#FF6F61;"/></td>
+                                        <td><a href="{%url 'App1:product_status' %}"><button><i class="fas fa-arrow-circle-left"></i></button></a></td>
+                                        </tr>
+                                        </tbody>
+                                  </table>
+                                  </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+    
+    
+   <!-- {% if messages %}
+    {% for updaterecord in messages %}
+    <h3 style="color: green;">{{updaterecord}}</h3>
+    {%endfor%}
+    {%endif%}-->
+
+
+
