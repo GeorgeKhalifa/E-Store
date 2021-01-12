@@ -4,12 +4,10 @@ from App1.forms import UserInfoForm, UserForm, ProductForm, OrderForm,StatusForm
 from App1.models import UserInfo, Product, ProductReview, CartItem,Order
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
 import math
 from decimal import Decimal
 import datetime
-
 
 # Create your views here.
 #Return Homepage of the products
@@ -225,6 +223,10 @@ def product_details(request, id):
     current_product = Product.objects.filter(id = id)[0]
     average_rating=math.floor(current_product.get_average_rating())
     number_of_stars = [i for i in range(average_rating)]
+    ##for recommendations
+
+    current_product.views.add(request.user)
+
     if(request.user.is_authenticated):
          current_product.views.add(request.user)
     total_number=0
@@ -282,13 +284,16 @@ def cart_page(request):
 
 
 #Update Cart with items added only (what addtocart button does)
+#Update Cart with items added only (what addtocart button does)
+#Update Cart with items added only (what addtocart button does)
 @login_required
 def update_cart(request, id):
     if CartItem.objects.filter(user = request.user, item_id=id, purchased=False).exists():
-        product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
-        product.quantity += 1
-        product.total_item_price = product.quantity * product.item.price
-        product.save()
+        if CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first().quantity < Product.objects.filter(id = id).first().in_stock:
+            product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
+            product.quantity += 1
+            product.total_item_price = product.quantity * product.item.price
+            product.save()
     else:
         product = CartItem(user = request.user, item = Product.objects.filter(id = id).first(),
         total_item_price = Product.objects.filter(id = id).first().price )
@@ -300,10 +305,11 @@ def update_cart(request, id):
 @login_required
 def update_cart2(request, id):
     if CartItem.objects.filter(user = request.user, item_id=id, purchased=False).exists():
-        product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
-        product.quantity -= 1
-        product.total_item_price = product.quantity * product.item.price
-        product.save()
+        if CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first().quantity > Product.objects.filter(id = id).first().in_stock:
+            product = CartItem.objects.filter(user = request.user, item_id = id, purchased = False).first()
+            product.quantity -= 1
+            product.total_item_price = product.quantity * product.item.price
+            product.save()
     else:
         product = CartItem(user = request.user, item = Product.objects.filter(id = id).first(),
         total_item_price = Product.objects.filter(id = id).first().price )
@@ -381,7 +387,6 @@ def checkout(request):
             return render(request, 'App1/checkout.html', {'checkout_form': checkout_form, 'total_cost': total_cost, 'points': points})
     else:
         return render(request, 'App1/checkout.html', {'checkout_form': checkout_form, 'total_cost': total_cost, 'points': points})
-
 
 #Go to Credit card info view
 @login_required

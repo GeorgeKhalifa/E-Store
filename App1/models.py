@@ -60,7 +60,7 @@ class ProductReview(models.Model):
 payment_choices = (('cod','COD(Cash on delivery)'),('credit','Credit Card'))
 class Order (models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE, default=None, null=True)
-    address = models.CharField(max_length=100)
+    address = models.CharField(max_length=99)
     phone_number = models.CharField(max_length=11)
     zip_code = models.CharField(max_length=4)
     currency =  models.CharField(default='$', choices=currency_choices, max_length=20)
@@ -81,15 +81,3 @@ class CartItem(models.Model):
     #we need to implement a view to remove a cartitem to be accessed from cart_page.html
     #we need to implement a view to calculate the total_item_price 
 
-# payment_choices = (('cod','COD(Cash on delivery)'),('credit','Credit Card'))
-# class Order (models.Model):
-#     user = models.ForeignKey(User, on_delete = models.CASCADE, default=None, null=True)
-#     address = models.CharField(max_length=100)
-#     phone_number = models.CharField(max_length=11)
-#     zip_code = models.CharField(max_length=4)
-#     currency =  models.CharField(default='$', choices=currency_choices, max_length=20)
-#     payment_method = models.CharField(default='cod', choices=payment_choices, max_length=20)
-#     total_cost = models.FloatField(default=0.00, max_length=6)
-#     new_total_cost = models.FloatField(max_length=10, default=0.00)
-#     discount_points = models.CharField(max_length=4)
-#     purchase_date = models.DateTimeField(auto_now_add=True)
