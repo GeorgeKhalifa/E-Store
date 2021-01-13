@@ -201,7 +201,7 @@ class Controller():
                 if 'picture' in request.FILES:
                     product.picture = request.FILES['picture']
                 product.save()
-                return render(request, 'App1/index.html')
+                return render(request, 'App1/confirm_product_form.html')
             else:
                 product_error_flag = True
                 product_form = ProductForm()
