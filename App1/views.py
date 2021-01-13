@@ -231,9 +231,11 @@ class Controller():
         else:
             current_user = "null"
         if request.method =="POST":
-            rating = request.POST.get('rating', 3)
+            rating = request.POST.get('rating', 0)
             review_content = request.POST.get('content', '')
             review = ProductReview.objects.create(product = current_product, user = request.user, rating = rating, review_content = review_content)
+            average_rating=math.floor(current_product.get_average_rating())
+            number_of_stars = [i for i in range(average_rating)]
             return render(request, 'App1/product_details.html', {'current_product':current_product,'number_of_stars':number_of_stars, 'current_user':current_user,'products':products,'total_number':total_number})
         else:
             return render(request, 'App1/product_details.html', {'current_product':current_product, 'number_of_stars':number_of_stars, 'current_user':current_user,'products':products,'total_number':total_number})
@@ -313,7 +315,22 @@ class Controller():
         cart = CartItem.objects.filter(user = request.user, purchased = False)
         item_to_be_removed = CartItem.objects.filter(user = request.user, id = id, purchased = False).first()
         item_to_be_removed.delete()
-        return render(request, 'App1/cart_page.html', {"cart":cart})
+
+        cart = CartItem.objects.filter(user = request.user, purchased = False)
+        total_cost=0
+        #total_number=0
+        for product in cart:
+            if(product.item.currency == 'L.E'):
+                total_item_price = product.total_item_price / 15.7
+            elif (product.item.currency == '€'):
+                total_item_price = product.total_item_price / 0.82
+            else:
+                total_item_price = product.total_item_price
+            
+            total_cost += total_item_price
+           
+
+        return render(request, 'App1/cart_page.html', {"cart":cart,"total_cost":round(total_cost,2)})
 
 
     #Checkout view
