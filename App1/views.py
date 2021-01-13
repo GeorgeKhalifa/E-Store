@@ -315,23 +315,8 @@ class Controller():
         cart = CartItem.objects.filter(user = request.user, purchased = False)
         item_to_be_removed = CartItem.objects.filter(user = request.user, id = id, purchased = False).first()
         item_to_be_removed.delete()
-
-        cart = CartItem.objects.filter(user = request.user, purchased = False)
-        total_cost=0
-        #total_number=0
-        for product in cart:
-            if(product.item.currency == 'L.E'):
-                total_item_price = product.total_item_price / 15.7
-            elif (product.item.currency == '€'):
-                total_item_price = product.total_item_price / 0.82
-            else:
-                total_item_price = product.total_item_price
-            
-            total_cost += total_item_price
-           
-
-        return render(request, 'App1/cart_page.html', {"cart":cart,"total_cost":round(total_cost,2)})
-
+        return redirect ('App1:cart')
+        
 
     #Checkout view
 
